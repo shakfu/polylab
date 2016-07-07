@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+    "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" height="300.0000" stroke-opacity="1" viewBox="0 0 300 300" font-size="1" width="300.0000" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="rgb(0,0,0)" version="1.1">
+  <defs>
+  </defs>
+  <defs>
+  </defs>
+  <g stroke-linejoin="miter" stroke-opacity="1.0" fill-opacity="0.0" stroke="rgb(0,0,0)" stroke-width="1.2" fill="rgb(0,0,0)" stroke-linecap="butt" stroke-miterlimit="10.0">
+    <path d="M 300.0000,212.1320 l -300.0000,0.0000 l 212.1320,-212.1320 v 300.0000 l -212.1320,-212.1320 l 300.0000,-0.0000 l -212.1320,212.1320 v -300.0000 Z"/>
+  </g>
+  <defs>
+  </defs>
+  <g stroke-linejoin="miter" stroke-opacity="1.0" fill-opacity="0.0" stroke="rgb(0,0,0)" stroke-width="1.2" fill="rgb(0,0,0)" stroke-linecap="butt" stroke-miterlimit="10.0">
+    <path d="M 300.0000,212.1320 l -300.0000,-124.2641 ZM 300.0000,87.8680 l -300.0000,124.2641 ZM 212.1320,0.0000 l -124.2641,300.0000 ZM 87.8680,0.0000 l 124.2641,300.0000 Z"/>
+  </g>
+  <defs>
+  </defs>
+  <g stroke-linejoin="miter" stroke-opacity="1.0" fill-opacity="0.0" stroke="rgb(0,0,0)" stroke-width="1.2" fill="rgb(0,0,0)" stroke-linecap="butt" stroke-miterlimit="10.0">
+    <path d="M 300.0000,212.1320 l -212.1320,-212.1320 v 300.0000 l 212.1320,-212.1320 l -300.0000,0.0000 l 212.1320,212.1320 v -300.0000 l -212.1320,212.1320 Z"/>
+  </g>
+  <defs>
+  </defs>
+  <g stroke-linejoin="miter" stroke-opacity="1.0" fill-opacity="0.0" stroke="rgb(0,0,0)" stroke-width="1.2" fill="rgb(0,0,0)" stroke-linecap="butt" stroke-miterlimit="10.0">
+    <path d="M 300.0000,212.1320 l -87.8680,-212.1320 l -212.1320,87.8680 l 87.8680,212.1320 ZM 300.0000,87.8680 l -212.1320,-87.8680 l -87.8680,212.1320 l 212.1320,87.8680 Z"/>
+  </g>
+  <defs>
+  </defs>
+  <g stroke-linejoin="miter" stroke-opacity="1.0" fill-opacity="0.0" stroke="rgb(0,0,0)" stroke-width="1.2" fill="rgb(0,0,0)" stroke-linecap="butt" stroke-miterlimit="10.0">
+    <path d="M 289.6094,181.8649 l -201.7414,97.1536 l -49.8260,-218.3021 l 223.9161,-0.0000 l -49.8260,218.3021 l -201.7414,-97.1536 l 139.6094,-175.0647 Z"/>
+  </g>
+  <defs>
+  </defs>
+  <g stroke-linejoin="miter" stroke-opacity="1.0" fill-opacity="0.0" stroke="rgb(0,0,0)" stroke-width="1.2" fill="rgb(0,0,0)" stroke-linecap="butt" stroke-miterlimit="10.0">
+    <path d="M 289.6094,181.8649 l -279.2188,0.0000 l 251.5675,-121.1485 l -174.0901,218.3021 l 62.1320,-272.2182 l 62.1320,272.2182 l -174.0901,-218.3021 Z"/>
+  </g>
+  <defs>
+  </defs>
+  <g stroke-linejoin="miter" stroke-opacity="1.0" fill-opacity="0.0" stroke="rgb(0,0,0)" stroke-width="1.2" fill="rgb(0,0,0)" stroke-linecap="butt" stroke-miterlimit="10.0">
+    <path d="M 289.6094,181.8649 l -251.5675,-121.1485 l 174.0901,218.3021 l -62.1320,-272.2182 l -62.1320,272.2182 l 174.0901,-218.3021 l -251.5675,121.1485 Z"/>
+  </g>
+  <defs>
+  </defs>
+  <g stroke-linejoin="miter" stroke-opacity="1.0" fill-opacity="0.0" stroke="rgb(0,0,0)" stroke-width="1.2" fill="rgb(0,0,0)" stroke-linecap="butt" stroke-miterlimit="10.0">
+    <path d="M 289.6094,181.8649 l -139.6094,-175.0647 l -139.6094,175.0647 l 201.7414,97.1536 l 49.8260,-218.3021 l -223.9161,0.0000 l 49.8260,218.3021 Z"/>
+  </g>
+</svg>

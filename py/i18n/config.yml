@@ -1,0 +1,15 @@
+
+appname: myapp
+
+uri: postgresql://user:user@localhost:5432/user
+
+dirs:
+    root: /home/user/dude
+    templates: templates
+    output: output
+    reports: output
+    figure: figure
+    cache: cache
+    reveal_js: /home/user/src/reveal.js
+    po: /home/user/dude/dude/i18n/po
+    locale: /home/user/dude/dude/i18n/locale

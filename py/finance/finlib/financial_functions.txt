@@ -1,0 +1,72 @@
+                                   (1 + rate)  - 1
+     fv(rate, n, pmt) =      pmt * ---------------
+                                        rate
+
+                                              n
+                                   ((1 + rate)  - 1) (1 + rate)
+     fvb(rate, n, pmt) =     pmt * ----------------------------
+                                              rate
+
+                                             n
+     fvl(rate, n, pmt) =     pmt * (1 + rate)
+
+                                                 -n
+                                   1 - (1 + rate)
+     pv(rate, n, pmt) =      pmt * ----------------
+                                         rate
+
+                                                  -n
+                                   (1 - (1 + rate)  ) (1 + rate)
+     pvb(rate, n, pmt) =     pmt * -----------------------------
+                                              rate
+
+                                             -n
+     pvl(rate, n, pmt) =     pmt * (1 + rate)
+
+                                         -1               -2               -3
+     npv(rate, [a, b, c]) =  a*(1 + rate)   + b*(1 + rate)   + c*(1 + rate)
+
+                                             -1               -2
+     npvb(rate, [a, b, c]) = a + b*(1 + rate)   + c*(1 + rate)
+
+                                                  -n
+                             (amt - x * (1 + rate)  ) * rate
+     pmt(rate, n, amt, x) =  -------------------------------
+                                                  -n
+                                    1 - (1 + rate)
+
+                                                  -n
+                             (amt - x * (1 + rate)  ) * rate
+     pmtb(rate, n, amt, x) = -------------------------------
+                                             -n
+                              (1 - (1 + rate)  ) (1 + rate)
+
+                                        amt * rate
+     nper(rate, pmt, amt) =  - log(1 - ------------, 1 + rate)
+                                           pmt
+
+                                         amt * rate
+     nperb(rate, pmt, amt) = - log(1 - ---------------, 1 + rate)
+                                       pmt * (1 + rate)
+
+                                   amt
+     nperl(rate, pmt, amt) = - log(---, 1 + rate)
+                                   pmt
+
+                                1/n
+                             pmt
+     ratel(n, pmt, amt) =    ------ - 1
+                                1/n
+                             amt
+
+                             cost - salv
+     sln(cost, salv, life) = -----------
+                                life
+
+                                  (cost - salv) * (life - per + 1)
+     syd(cost, salv, life, per) = --------------------------------
+                                       life * (life + 1) / 2
+
+                                  book * 2
+     ddb(cost, salv, life, per) = --------,  book = cost - depreciation so far
+                                    life

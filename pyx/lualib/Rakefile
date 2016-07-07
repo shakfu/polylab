@@ -1,0 +1,31 @@
+#!/usr/bin/ruby
+
+task :default => [:lualib]
+
+BASE="/home/sa/src/code/sandbox/pyx/lualib"
+LIB = BASE + "/lib/lua5.1"
+INC = BASE + "/include/lua5.1"
+
+
+desc "create a test file"
+task :test do
+    #sh "rm test"
+    sh "gcc -o test src/test.c -I#{INC} -L#{LIB} -llua5.1 -lm -ldl"
+end
+
+desc "create lualib cython library"
+task :lualib do
+    #sh "rm lualib.so"
+    sh "python setup.py build_ext --inplace"
+    sh "mv lualib.so ./src"
+    sh "rm -rf build src/lualib.c"
+    sh "python src/test.py"
+end
+
+desc "clean all residual files"
+task :clean do
+    sh "rm lualib.so"
+    sh "rm -rf build lualib.c"
+    sh "rm test"
+end
+

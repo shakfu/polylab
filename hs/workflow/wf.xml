@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+workflow.type: workflow type name
+workflow.category: hierarchical category
+workflow.scope: can be a specific instance of a businessunit 
+                or a lower cased IBusinessUnit classname for 
+                further generality: e.g. saeco or projectunit
+
+workflow.roles: not used except for validation and documentation,
+                specifies business role instances participating
+                in this workflow.
+
+workflow.views: a view specifies the way in which an entity model
+                can be represented depending on who views it during
+                the various 'activity' stages of a workflow.
+                
+                It contain sections, fieldsets and fields which
+                cannot (as per the current design) be nested.
+                
+                Sections:
+                    A logical way in which to separate blocks of information
+                    is a section. A section should be used when a different
+                    user control is applied.
+                
+                Fieldsets:
+                    A way to label and group fields in a given section
+                
+                Fields:
+                    Represent properties in the entity model
+
+workflow.activities:
+                Represent windows workflow activities.
+
+Future Extensions:
+==============
+
+workflow.transitions:
+                Map activities to activities in the workflow.
+                Could conceivably be used to generate workflows, but will most
+                probably be used to generate dot diagrams and documentation.
+-->
+<workflow type="person_request" category="HR" scope="company">
+    <roles>
+        <role name="requester" description=""/>
+        <role name="submitter"/>
+        <role name="hr_manager"/>
+        <role name="general_manager"/>
+    </roles>
+    <views model="Person">
+        <view name="default" style="tabs">
+            <section name="Personal Details">
+                <fieldset name="Name Information">
+                    <field name="ID" type="int" readonly="true"/>
+                    <field name="FirstName" type="string" />
+                    <field name="MiddleName" type="string" />
+                    <field name="LastName" type="string" />
+                </fieldset>
+                <fieldset name="Dates and Assets">
+                    <field name="DateOfBirth" type="DateTime" />
+                    <field name="CashInBank" type="Decimal"/>
+                </fieldset>
+
+                <fieldset name="Nationality and Visa Info">
+                    <field name="Nationality" type="string" />
+                    <field name="CountryOfResidency" type="string" />
+                    <field name="VisaStatus" type="string"/>
+                </fieldset>
+                <fieldset name="Marital Status">
+                    <field name="MaritalStatus" type="string"/>
+                    <field name="Dependents" type="string" />
+                </fieldset>              
+            </section>
+            <section name="Identification Info">
+                <fieldset name="Passports / Driving Licenses / National IDs" type="datagrid" collection="Identifications">
+                    <field name="ID" type="int" readonly="true" />
+                    <field name="Issuer" type="string" />
+                </fieldset>
+            </section>
+            <section name="Contact Information">
+                <fieldset name="Primary contacts" type="datagrid" collection="Contacts">
+                    <field name="ID"  type="int" readonly="true"/>
+                    <field name="Email" type="string" default="me@org.net"/>
+                </fieldset>
+            </section>
+        </view>
+        
+        <view name="start_view" inherits="default" />
+
+        <view name="person_view" inherits="default" />
+
+        <view name="hr_view" inherits="default">
+            <section name="Contact Information" hello="YYYYYYYYYYY">
+                <fieldset name="Primary contacts" collection="Contacts">
+                    <field name="ID" type="int" readonly="true"/>
+                    <field name="Email" type="string" default="me@org.net"/>
+                </fieldset>
+            </section>
+        </view>
+        
+        <view name="mgr_view" inherits="default">
+            <section name="Contact Information" goodbye="XXXXXXXXXXX">
+                <fieldset name="Primary contacts" collection="Contacts">
+                    <field name="ID" type="int" readonly="true"/>
+                    <field name="Email" type="string" default="me@org.net"/>
+                </fieldset>
+            </section>
+        </view>
+    </views>
+
+    <activities>
+        <activity name="start" role="requester|submitter" view="start_view"/> 
+        <activity name="request_person" role="requester|submitter" view="person_view"/>        
+        <activity name="validate_person_request" role="hr_manager" view="hr_view"/>
+        <activity name="get_mgr_approval" role="general_manager" view="mgr_view"/>        
+        <activity name="end"/>
+    </activities>
+    
+    <transitions>
+        <transition name="start_request" start="start" end="request_person"/>
+        <transition name="validate" start="request_person" end="validate_person_request" />
+        <transition name="get_approval" start="validate_person_request" end="get_mgr_approval" />
+        <transition name="approved" start="get_mgr_approval" end="end" />
+        <transition name="rejected" start="get_mgr_approval" end="end" />
+        <transition name="send_back" start="get_mgr_approval" end="request_person" />
+    </transitions>
+</workflow>

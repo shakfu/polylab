@@ -1,0 +1,14 @@
+from classes import Person
+import logging
+
+names = ["shakeeb", "grape", "mellon", "pear"]
+count = 5
+
+rule rule_a:
+    agenda-group test_a
+    when:
+        $person := Person( property0 in names )
+    then:
+        # call MyIntellect's bar method as it is decorated as callable
+        bar()
+        log(logging.DEBUG, "rule_a fired")

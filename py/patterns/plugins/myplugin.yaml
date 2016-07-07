@@ -1,0 +1,9 @@
+name: myplugin
+category: love
+path: plugins.myplugin
+author: Unknown
+website: Unknown
+version: '0.0'
+description: a description of myplugin is here
+active: true
+

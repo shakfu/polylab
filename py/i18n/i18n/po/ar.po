@@ -1,0 +1,48 @@
+# Arabic translations for PACKAGE package.
+# Copyright (C) 2014 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# sa <sa@ubuntu>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-06-13 17:27+0300\n"
+"PO-Revision-Date: 2014-06-13 17:27+0300\n"
+"Last-Translator: sa <sa@ubuntu>\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Project Accountant"
+msgstr "مشروع محاسب"
+
+msgid "Project Manager"
+msgstr "مدير المشروع"
+
+msgid "Finance Manager"
+msgstr "مدير التمويل"
+
+msgid "Deputy General Manager"
+msgstr "نائب المدير العام"
+
+msgid "Approve"
+msgstr "وافق"
+
+msgid "Yes"
+msgstr "نعم"
+
+msgid "No"
+msgstr "لا"
+
+msgid "Petty Cash Request"
+msgstr "طلب التافهة النقدية"
+
+msgid "Petty Cash"
+msgstr "التافهة النقدية"
+
+msgid "Agreed Request"
+msgstr "طلب وافق"
+

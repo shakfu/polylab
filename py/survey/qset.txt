@@ -1,0 +1,54 @@
+the title
+the description
+
+human_relations_skills [choice]
+    The requirement for working with and through others to achieve the role accountabilities
+        1   Information exchange, asking questions, exercising tact
+        2   Persuasion, assertiveness - based on fact or evidence, empathy to the other's point of view
+        3   hearts and minds - behavior change, negotiating and partnership working
+
+thinking_environment [choice]
+    Assesses the extent to which thinking is constrained by the context in which it must take place
+        A	Sequence and timing of action steps defined: 'do it this Example Description way'.
+        B	Selection from well-defined set of action steps based on previous experience.
+        C	Interpretation of established precedents. Nature of problem and how to solve fairly clearly defined.
+        D	Choose from a number of procedures in response to different work situations.
+        E	May need to develop new procedures within existing policies 
+        F	Problem not clearly defined: Operating within broad functional guidelines. 
+        G	Developing strategy guidelines for the organisation.
+        H   Abstractly defined
+
+thinking_challenge [choice]
+    The complexity of the problems encountered and the extent to which original thinking must be employed to arrive at solutions
+        1   Stable and repetitive situations
+        2   Multiple choices based on experience; result can be readily checked for correctness
+        3   Alternative solutions but a 'right answer' exists; may need analysis to identify
+        4   Significant evaluative judgement; no 'right answer'; may only know if correct with hindsight
+        5   Speculative judgement; really stretching the bounds of knowledge
+
+freedom_to_act [choice]
+    how much freedom the job entails
+        A   Prescribed
+        B   Controlled
+        C   Standardized
+        D   Regulated
+        E   Directed
+        F   Generally Directed
+        G   Guided
+
+magnitude [choice]
+    value of the job
+        A   Indeterminate
+        B   Very Small
+        C   Small
+        D   Medium
+        E   Large
+
+impact [choice]
+    the value impact of the job
+        A   Basic
+        B   Prime
+        C   Shared
+        D   Contributory
+        E   Remote
+

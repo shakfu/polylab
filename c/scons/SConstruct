@@ -1,0 +1,16 @@
+
+# build hello
+Program('hello', ['hello.c'])
+
+
+# build sfl versions
+env = Environment(
+    CPPPATH='/usr/local/include',
+    LIBPATH='/usr/local/lib',
+    LIBS=['sfl']) 
+
+env.Program('sfl', ['sfl.c'])
+env.StaticLibrary('sflib_static', ['sflib.c'])
+env.SharedLibrary('sflib_shared', ['sflib.c'])
+
+
