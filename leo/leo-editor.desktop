@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Leo-Editor
+Exec=python /home/sa/src/leo-editor/launchLeo.py ~/salareview/workbook.leo
+Icon=/home/sa/src/leo-editor/leo/Icons/application-x-leo-outline.png
+Categories=Development
+Comment=Literate Programming with Outlines
+Path=/home/sa/salareview
+Terminal=true
+
+
+

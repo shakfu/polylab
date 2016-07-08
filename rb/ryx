@@ -1,0 +1,259 @@
+#!/usr/bin/env ruby
+
+# usage: ryx [options] path
+#  --help,    -h   : show help
+#  --log f,   -l f : set the logfile
+#  --clean,   -c   : cleanup after ops
+#  --install, -i   : install result of ops
+#  --exec,    -e   : transform executable
+
+
+require 'rubygems'
+require 'logger'
+require 'getoptlong'
+require 'pathname'
+require 'rdoc/usage'
+
+class Common
+    def init_log
+        @log = Logger.new(STDOUT)
+        @log.progname = self.class.name
+        @log.level = Logger::INFO
+        @log.info 'initialized'
+    end
+end
+
+class Builder < Common
+    def initialize(path, options)
+        init_log
+        if File.exist?(path)
+            @path = Pathname.new(path)
+            @options = options
+        else
+            @log.error "not a valid file or directory"
+            exit
+        end
+    end
+
+    def build()
+        case @path.ftype
+            when 'file'
+                filehandlers = {
+                    '.txt'  => TxtHandler,
+                    '.java' => JavaHandler,
+                    '.c'    => CHandler,
+                    '.cpp'  => CppHandler,
+                    '.cs'   => CSharpHander,
+                    '.py'   => PyHandler,
+                    '.exe'  => ExeHandler,
+                    '.hs'   => HaskellHandler,
+                    '.rb'   => RubyHandler,
+                    '.dot'  => DotHandler,
+                    '.aif'  => AifHandler,
+                    '.mp3'  => MP3Handler,
+                    '.wav'  => WavHandler,
+                    '.csd'  => CSoundHandler,
+                    '.orc'  => CSoundHandler,
+                    '.sco'  => CSoundHandler,
+                    '.mod'  => GLPKHandler,
+                }[@path.extname].new(@path, @options).handle()
+            when 'directory'
+                @log.info "#{@path} is a directory"
+                SevenZipHandler.new(@path, @options).handle()
+        end
+    end
+end
+
+class Handler < Common
+    def initialize(path, options)
+        init_log
+        @path = Pathname.new(path)
+        @options = options
+        @filename = @path.basename.to_s.split('.')[0]
+    end
+    def handle
+        cleanup unless not @options['clean']
+    end
+    def cmd(command)
+        @log.info(command)
+        system(command)
+    end
+    def cleanup
+    end
+end
+
+class TxtHandler < Handler
+    def handle
+        cmd("cat #{@path}")
+    end
+end
+
+class JavaHandler < Handler
+    def handle
+        cmd("javac #{@path}")
+    end
+end
+
+class CHandler < Handler
+    def handle
+        cmd("gcc #{@path}")
+        super
+    end
+    def cleanup
+        cmd("rm #{@filename}.obj")
+    end
+end
+
+class CppHandler < Handler
+    def handle
+        cmd("gcc #{@path}")
+        super
+    end
+    def cleanup
+        cmd("rm #{@filename}.obj")
+    end
+end
+
+class CSharpHander < Handler
+    def handle
+        cmd("mono #{@path}")
+        super
+    end
+    def cleanup
+        cmd("rm #{@filename}.obj")
+    end
+end
+
+
+class PyHandler < Handler
+    def handle
+       cmd("pydoc #{@path}")
+    end
+end
+
+class CompressionHandler < Handler
+    def handle
+       cmd("7za a #{@filename}.7z #{@path}")
+       SevenZipHandler.new(@path, @options)
+    end
+end
+
+class SevenZipHandler < Handler
+    def handle
+       cmd("7za x #{@path}")
+    end
+end
+
+class ExeHandler < Handler
+    def handle
+       cmd("upx #{@path}")
+    end
+end
+
+class HaskellHandler < Handler
+    def handle
+        cmd("ghc -o #{@filename} -O -fvia-c #{@path}")
+        super
+        ExeHandler.new("#{@filename}.exe", @options).handle
+    end
+    def cleanup
+        cmd("rm #{@filename}.Hi")
+        cmd("rm #{@filename}.o")
+    end
+end
+
+class RubyHandler < Handler
+    def handle
+       cmd("rdoc -d #{@path}")
+    end
+end
+
+class DotHandler < Handler
+    def handle
+       cmd("dot -Tpng -o#{@filename}.png #{@path}")
+       cmd("open #{@filename}.png")
+    end
+end
+
+
+class MP3Handler < Handler
+    def handle
+        cmd("lame --decode #{@path} #{@filename}.wav")
+        super
+    end
+    def cleanup
+        cmd("rm #{@filename}.mp3")
+    end
+end
+
+class WavHandler < Handler
+    def handle
+        cmd("lame -V2 #{@path} #{@filename}.mp3")
+        super
+    end
+    def cleanup
+        cmd("rm #{@filename}.wav")
+    end
+end
+
+
+class AifHandler < Handler
+    def handle
+        cmd("lame -V2 #{@path} #{@filename}.mp3")
+        super
+    end
+    def cleanup
+        cmd("rm #{@filename}.aif")
+    end
+end
+
+class CSoundHandler < Handler
+    def handle
+        case @path.extname
+            when ".orc"
+                cmd("csound -W -o #{@filename}.wav #{@path} #{@filename}.sco")
+                WavHandler.new("#{@filename}.wav", @options).handle
+            when ".sco"
+                cmd("csound -W -o #{@filename}.wav #{@filename}.orc #{@path}")
+                WavHandler.new("#{@filename}.wav", @options).handle
+            when ".csd"
+                cmd("csound -W -o #{@filename}.wav #{@path}")
+                WavHandler.new("#{@filename}.wav", @options).handle
+        end
+    end
+end
+
+class GLPKHandler < Handler
+    def handle
+        cmd("glpsol -m #{@filename}.mod -o #{@filename}.sol")
+    end
+end
+
+
+if $0 == __FILE__
+
+    opts = GetoptLong.new(
+        [ "--help",   "-h", GetoptLong::NO_ARGUMENT],
+        [ "--log",    "-l", GetoptLong::REQUIRED_ARGUMENT ],
+        [ "--clean",  "-c", GetoptLong::NO_ARGUMENT ],
+        [ "--install","-i", GetoptLong::NO_ARGUMENT ],
+        [ "--exec",   "-e", GetoptLong::NO_ARGUMENT ]
+    )
+
+    # process the parsed options
+    options = {}
+    opts.each do |opt, arg|
+        case opt
+            when '--help'
+                RDoc::usage
+        end
+        options[opt.delete('--')] = arg
+    end
+    #p options ; puts "target file: #{ARGV.join(', ')}"
+    if ARGV.length != 1
+        RDoc::usage
+        exit 0
+    end
+    Builder.new(ARGV[0], options).build
+
+end
