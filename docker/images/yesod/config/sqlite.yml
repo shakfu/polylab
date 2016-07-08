@@ -1,0 +1,20 @@
+Default: &defaults
+  database: velvet.sqlite3
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: velvet_test.sqlite3
+  <<: *defaults
+
+Staging:
+  database: velvet_staging.sqlite3
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: velvet_production.sqlite3
+  poolsize: 100
+  <<: *defaults

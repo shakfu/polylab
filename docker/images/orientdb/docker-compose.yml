@@ -1,0 +1,6 @@
+db:
+  image: "joaodubas/orientdb:latest"
+  ports:
+   - "2424:2424"
+   - "2480:2480"
+

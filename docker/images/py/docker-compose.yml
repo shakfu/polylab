@@ -1,0 +1,8 @@
+web:
+  image: "python:slim"
+  links: 
+      - hs
+
+hs:
+  image: "haskell:latest"
+
