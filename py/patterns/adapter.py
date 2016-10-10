@@ -27,7 +27,7 @@ class CreatureAdapter(object):
 
 if __name__ == '__main__':
     person = Person('bob')
-    
+
     fido = Dog('fido')
     canine = CreatureAdapter(fido, fido.bark)
 
@@ -36,5 +36,3 @@ if __name__ == '__main__':
 
     for i in [person, canine, feline]:
         print i.name, 'says', i.make_noise()
-
-

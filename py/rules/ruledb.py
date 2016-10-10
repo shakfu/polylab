@@ -1,7 +1,6 @@
 #~ from operator import xor
 from pprint import pformat
 
-
 class Rule(object):
     def __init__(self, condition):
         self.condition = condition
@@ -20,9 +19,8 @@ class Rule(object):
         return self.value
 
     def __repr__(self):
-        return "<%s:'%s'>" % (self.__class__.__name__, 
+        return "<%s:'%s'>" % (self.__class__.__name__,
                               self.condition)
-
 
 def rule(cond):
     if isinstance(cond, str):
@@ -46,7 +44,7 @@ class RuleSet:
         if rules:
             #assume 'and' relation
             self.add_ruleset(relation, rules)
-            
+
     def value(self):
         return self.__call__()
 
@@ -58,10 +56,10 @@ class RuleSet:
 
     def add_ruleset(self, relation=None, rules=[]):
         self.rules.append((relation, rules))
-        
+
     def __repr__(self):
         return 'RuleSet(%s) is: %s\n%s' % (id(self), self.value(), pformat(self.rules))
-    
+
     def __call__(self):
         self.bools = []
         for relation, rules in self.rules:
@@ -75,21 +73,20 @@ class RuleSet:
                 raise Exception("default is 'and', must specify 'and' or 'or'")
         #~ print self.bools
         return bool(all(r() for r in self.bools))
-        
-    #~ def __xor__( self, other) 
-    
+
+    #~ def __xor__( self, other)
+
     def __and__(self, other):
         if callable(other):
             return boo(self() and other())
         else:
             raise Exception('argument must be callable and return a bool value')
-    
+
     def __or__(self, other):
         if callable(other):
             return bool(self() or other())
         else:
             raise Exception('argument must be callable and return a bool value')
-            
 
 def ruleset(relation, rules):
     if relation == 'and':
@@ -103,7 +100,7 @@ lst = range(10)
 
 r1 = rule(2 > 4)
 r2 = rule('2 in lst')
-r3 = rule('11 in lst') 
+r3 = rule('11 in lst')
 
 rs1 = ruleset('and', [ rule('3 > 2'), rule('0 < 1')])
 rs2 = ruleset('or', [ rule('3 > 2'), rule('0 < 1'), ])
@@ -181,9 +178,11 @@ tests = {
 }
 
 def test():
+    print 'all tests ',
+
     for rule in tests:
         assert rule() is tests[rule]
-    print 'all tests pass -----------------------------------------> ok'
-
+        print '-',
+    print 'OK'
 
 #test()
