@@ -1,0 +1,7 @@
+[package]
+name = "cmd"
+version = "0.1.0"
+authors = ["Shakeeb Alireza <shakeeb.alireza@rezayat.net>"]
+
+[dependencies]
+argparse = "*"
