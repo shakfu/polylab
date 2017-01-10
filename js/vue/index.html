@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> rez-reviewr </title>
+
+    <!-- Semantic core CSS -->
+    <link href="static/semantic/semantic.min.css" rel="stylesheet">
+    <style type="text/css">
+    body {
+      background-color: #FFFFFF;
+    }
+    .main.container {
+      margin-top: 2em;
+    }
+    </style>
+  </head>
+
+  <body>
+    <div class="ui main text container">
+
+        <img class="ui centered image" src="static/img/logo.png"/>
+        <h1 class="ui header">Salary Review Analytics</h1>
+        <p>The following data analysis applications provide quantitative insights into operational performance.</p>
+
+        <div id="app">
+            <p>{{message}}</p>
+        </div>
+
+        <div id="app-2">
+          <span v-bind:title="message">
+            Hover your mouse over me for a few seconds to see my dynamically bound title!
+          </span>
+        </div>
+
+        <div id="app-3">
+          <p v-if="seen">Now you see me</p>
+        </div>
+
+        <div id="app-4">
+          <ol>
+            <li v-for="todo in todos">
+              {{ todo.text }}
+            </li>
+          </ol>
+        </div>
+
+        <div id="app-5">
+          <p>{{ message }}</p>
+          <button v-on:click="reverseMessage">Reverse Message</button>
+        </div>
+
+        <div id="app-7">
+          <ol>
+            <!-- Now we provide each todo-item with the todo object    -->
+            <!-- it's representing, so that its content can be dynamic -->
+            <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+          </ol>
+        </div>
+
+        <div id="example">
+          <p>Original message: "{{ message }}"</p>
+          <p>Computed reversed message: "{{ reversedMessage }}"</p>
+        </div>
+
+        <div id="todo-list-example">
+          <input
+            v-model="newTodoText"
+            v-on:keyup.enter="addNewTodo"
+            placeholder="Add a todo"
+          >
+          <ul>
+            <li
+              is="todo-item"
+              v-for="(todo, index) in todos"
+              v-bind:title="todo"
+              v-on:remove="todos.splice(index, 1)"
+            ></li>
+          </ul>
+        </div>
+
+        <div id="example-2">
+          <!-- `greet` is the name of a method defined below -->
+          <button v-on:click="greet">Greet</button>
+        </div>
+
+    </div>
+    <!-- Semantic core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="static/js/jquery-1.11.1.min.js"></script>
+    <script src="static/js/vue.js"></script>
+    <!--script src="static/semantic/semantic.min.js"></script-->
+
+    <script>
+        $(document).ready(function() {
+            // $('.menu .item').tab();
+            new Vue({
+                el: '#app',
+                data: {
+                    message: 'Hello Vue.js'
+                }
+            })
+
+            var app2 = new Vue({
+                el: '#app-2',
+                data: {
+                    message: 'You loaded this page on ' + new Date()
+                }
+            })
+
+            var app3 = new Vue({
+                el: '#app-3',
+                data: {
+                    seen: true
+                }
+            })
+
+            var app4 = new Vue({
+              el: '#app-4',
+              data: {
+                todos: [
+                  { text: 'Learn JavaScript' },
+                  { text: 'Learn Vue' },
+                  { text: 'Build something awesome' }
+                ]
+              }
+            })
+
+            var app5 = new Vue({
+              el: '#app-5',
+              data: {
+                message: 'Hello Vue.js!'
+              },
+              methods: {
+                reverseMessage: function () {
+                  this.message = this.message.split('').reverse().join('')
+                }
+              }
+            })
+
+            Vue.component('todo-item', {
+              props: ['todo'],
+              template: '<li>{{ todo.text }}</li>'
+            })
+
+            var app7 = new Vue({
+                el: '#app-7',
+                data: {
+                    groceryList: [
+                      { text: 'Vegetables' },
+                      { text: 'Cheese' },
+                      { text: 'Whatever else humans are supposed to eat' }
+                    ]
+                }
+            })
+
+            var vm = new Vue({
+              el: '#example',
+              data: {
+                message: 'Hello'
+              },
+              computed: {
+                // a computed getter
+                reversedMessage: function () {
+                  // `this` points to the vm instance
+                  return this.message.split('').reverse().join('')
+                }
+              }
+            })
+
+            Vue.component('todo-item', {
+              template: '\
+                <li>\
+                  {{ title }}\
+                  <button v-on:click="$emit(\'remove\')">X</button>\
+                </li>\
+              ',
+              props: ['title']
+            })
+            new Vue({
+              el: '#todo-list-example',
+              data: {
+                newTodoText: '',
+                todos: [
+                  'Do the dishes',
+                  'Take out the trash',
+                  'Mow the lawn'
+                ]
+              },
+              methods: {
+                addNewTodo: function () {
+                  this.todos.push(this.newTodoText)
+                  this.newTodoText = ''
+                }
+              }
+            })
+
+            var example2 = new Vue({
+              el: '#example-2',
+              data: {
+                name: 'Vue.js'
+              },
+              // define methods under the `methods` object
+              methods: {
+                greet: function (event) {
+                  // `this` inside methods points to the Vue instance
+                  alert('Hello ' + this.name + '!')
+                  // `event` is the native DOM event
+                  alert(event.target.tagName)
+                }
+              }
+            })
+            // you can invoke methods in JavaScript too
+            //example2.greet() // -> 'Hello Vue.js!'
+
+
+        });
+    </script>
+
+  </body>
+</html>
