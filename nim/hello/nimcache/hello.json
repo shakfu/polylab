@@ -1,0 +1,10 @@
+{"compile":[
+["/mnt/hgfs/shared/projects/polylab/nim/hello/nimcache/hello.c", "gcc -c  -w  -I/opt/nim/lib -o /mnt/hgfs/shared/projects/polylab/nim/hello/nimcache/hello.o /mnt/hgfs/shared/projects/polylab/nim/hello/nimcache/hello.c"],
+["/mnt/hgfs/shared/projects/polylab/nim/hello/nimcache/stdlib_system.c", "gcc -c  -w  -I/opt/nim/lib -o /mnt/hgfs/shared/projects/polylab/nim/hello/nimcache/stdlib_system.o /mnt/hgfs/shared/projects/polylab/nim/hello/nimcache/stdlib_system.c"]
+],
+"link":[
+"/mnt/hgfs/shared/projects/polylab/nim/hello/nimcache/hello.o",
+"/mnt/hgfs/shared/projects/polylab/nim/hello/nimcache/stdlib_system.o"
+],
+"linkcmd": "gcc   -o /mnt/hgfs/shared/projects/polylab/nim/hello/hello  /mnt/hgfs/shared/projects/polylab/nim/hello/nimcache/hello.o /mnt/hgfs/shared/projects/polylab/nim/hello/nimcache/stdlib_system.o    -ldl"
+}
