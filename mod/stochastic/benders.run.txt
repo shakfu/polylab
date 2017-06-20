@@ -1,0 +1,37 @@
+model benders.mod;
+data benders.dat;
+
+problem Master: x1, x2, theta, MasterObj, Cuts;
+
+problem Sub {s in SCEN}:
+	y1[s], y2[s], SubObj[s], c1[s], c2[s];
+
+let nCut := 0;
+for {1..20} {
+    printf "\nITERATION: %d\n\n", nCut;
+    let nCut := nCut + 1;
+    let scenIx := 0;
+    for {s in SCEN} {
+	solve Sub[s];
+	let scenIx := scenIx + 1;
+	let tcoef0[s] := c1[s].dual * 7 + c2[s].dual * 4;
+	let tcoef1[s] := c1[s].dual * omega1[s] + c2[s].dual * omega2[s];
+	let tcoef2[s] := c1[s].dual + c2[s].dual;
+
+	printf "SCENARIO %d\n", scenIx;
+	display SubObj[s], y1[s], y2[s], omega1[s], omega2[s], x1, x2;
+	display tcoef0[s], tcoef1[s], tcoef2[s];
+
+    }
+    let coef0[nCut] := sum {s in SCEN} p[s] * tcoef0[s];
+    let coef1[nCut] := sum {s in SCEN} p[s] * tcoef1[s];
+    let coef2[nCut] := sum {s in SCEN} p[s] * tcoef2[s];
+
+    display coef0[nCut], coef1[nCut], coef2[nCut];
+    solve Master;
+    printf "\n";
+    display MasterObj, theta, x1, x2;
+}
+
+
+    

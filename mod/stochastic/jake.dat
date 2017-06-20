@@ -1,0 +1,16 @@
+set Investments := Stocks Bonds;
+param b := 10000;
+param G := 15000;
+param q := 0.05;
+param r := 0.10;
+
+param Return := 
+  0 Stocks 1.25
+  0 Bonds  1.05
+  1 Stocks 1.10
+  1 Bonds  1.05
+  2 Stocks 1.00 
+  2 Bonds  1.06
+  3 Stocks 0.95
+  3 Bonds  1.08 ;
+

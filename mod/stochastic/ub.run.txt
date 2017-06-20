@@ -1,0 +1,21 @@
+model ub.mod;
+
+param M := 10000;
+param s;
+param s2;
+let s := 0;
+let s2 := 0;
+for {1 .. M} {
+
+  let w1 := Uniform(1,4);
+  let w2 := Uniform(1/3,1);
+
+  solve;
+  display ObjPlusRecourse;
+  let s := s + ObjPlusRecourse;
+  let s2 := s2 + (ObjPlusRecourse * ObjPlusRecourse);	
+ 
+}
+
+display s/M;
+display sqrt ((s2 - M * (s/M) * (s/M))/(M-1))/sqrt(M);

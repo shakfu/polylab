@@ -1,0 +1,131 @@
+model ub.mod;
+
+# Number of samples
+param M := 100;
+
+# Number of Batches
+param B := 10;
+param BatchSize := floor(M/B);
+
+param O1{1 .. BatchSize};
+param O2{1 .. BatchSize};
+
+param C1{1 .. BatchSize};
+param C2{1 .. BatchSize};
+
+# Number of buckets
+param Q := 5;
+
+display Q;
+
+# Running counters for the sum and sum-squared
+param s;
+param s2;
+let s := 0;
+let s2 := 0;
+
+param inc1;
+let inc1 := 3/Q;
+param inc2;
+let inc2 := 2/3/Q;
+
+param lb1;
+param lb2;
+
+param ixinc := floor(M/B/Q);
+param ix;
+
+param r;
+param tix;
+param t;
+
+display ixinc;
+
+for {b in 1 .. B} {
+
+  let lb1 := 1;
+  let lb2 := 1/3;
+  let ix := 1;
+
+  for {q1 in 1 .. Q} {
+
+    for {1 .. ixinc} {
+      let O1[ix] := Uniform(lb1, lb1+inc1); 
+      let ix := ix + 1;
+    }
+
+    let lb1 := lb1 + inc1;
+  }
+
+  let ix := 1;
+  for {q2 in 1 .. Q} {
+
+    for {1 .. ixinc} {
+      let O2[ix] := Uniform(lb2, lb2+inc2); 
+      let ix := ix + 1;
+    }
+
+    let lb2 := lb2 + inc2;
+  }
+
+  # (Make sure we have the last one)
+  let O1[BatchSize] := Uniform(4-inc1, 4);
+  let O2[BatchSize] := Uniform(1-inc2, 1);
+
+  display O1;
+  display O2;
+
+# Now we must shuffle the two arrays...
+  let tix := 1;
+
+  repeat {
+    let r := floor(Uniform(1,BatchSize+1));
+    let ix := r;
+    repeat while O1[ix] = 0 {
+      let ix := ix + 1;
+      if ix = BatchSize + 1 then let ix := 1;  	 
+    };
+
+    let C1[tix] := O1[ix];
+    let O1[ix] := 0;
+
+    let r := floor(Uniform(1,BatchSize+1));
+    let ix := r;
+    repeat while O2[ix] = 0 {
+      let ix := ix + 1;
+      if ix = BatchSize + 1 then let ix := 1;  	 
+    };	
+  
+    let C2[tix] := O2[ix];
+    let O2[ix] := 0;
+  
+    let tix := tix + 1;
+  } until tix > BatchSize;
+
+  display C1;
+  display C2;
+
+  let t := 0;
+	
+  for {q in 1 .. BatchSize} {
+    
+    let w1 := C1[q];
+    let w2 := C2[q];
+
+    solve;
+    display ObjPlusRecourse;
+    let t := t + ObjPlusRecourse;
+  }
+
+  display t/BatchSize;
+ 
+  let t := t/BatchSize;
+  let s := s + t;
+  let s2 := s2 + (t * t);
+
+
+}
+
+
+display s/B;
+display sqrt ((s2 - B * (s/B) * (s/B))/(B-1))/sqrt(B);
