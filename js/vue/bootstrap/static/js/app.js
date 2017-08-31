@@ -77,6 +77,6 @@ $(document).ready(function() {
   // application
   new Vue({
     el: '#app'
-  })
+  });
 
 })
