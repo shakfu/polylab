@@ -1,14 +1,14 @@
 
-#include "common.h" 
+#include "common.h"
 
-/*  
+/*
 
 declaring 2d array:
     type arrayname[rows][cols];
 
 Algorithm:
 
-    For a Hidden Markov Model (HMM) with state space S, 
+    For a Hidden Markov Model (HMM) with state space S,
     initial probabilities of being in state i
     and transition probabilities of transitioning
     from state i to state j. Say we observe outputs.
@@ -18,7 +18,7 @@ Algorithm:
 
     uses:
         max
-        argmax(n, array): 
+        argmax(n, array):
             returns index of maximum value in an array
         or
         argmax(func f, n, array):
@@ -60,7 +60,7 @@ Model * model_create(string name,
                      double transitions[][n_states],
                      double emissions[][n_observations])
 {
-    Model *model; 
+    Model *model;
     model = malloc(sizeof(*model));
 
     // init name
@@ -130,7 +130,7 @@ Model * model_create(string name,
 
     return model;
 }
- 
+
 void model_destroy(Model *m)
 {
     // name
@@ -156,7 +156,7 @@ void model_destroy(Model *m)
     if (m->start_prob != NULL) {
         free(m->start_prob);
     }
-    
+
     // free transitions memory
     if (m->transitions != NULL) {
         foreach(i, m->n_states) {
@@ -283,16 +283,16 @@ double max(int length, double array[length])
 
 
 // states = ('Rainy', 'Sunny')
- 
+
 // observations = ('walk', 'shop', 'clean')
- 
+
 // start_probability = {'Rainy': 0.6, 'Sunny': 0.4}
- 
+
 // transition_probability = {
 //    'Rainy' : {'Rainy': 0.7, 'Sunny': 0.3},
 //    'Sunny' : {'Rainy': 0.4, 'Sunny': 0.6},
 //    }
- 
+
 // emission_probability = {
 //    'Rainy' : {'walk': 0.1, 'shop': 0.4, 'clean': 0.5},
 //    'Sunny' : {'walk': 0.6, 'shop': 0.3, 'clean': 0.1},
@@ -302,22 +302,22 @@ double max(int length, double array[length])
 def viterbi(obs, states, start_p, trans_p, emit_p):
     V = [{}]
     path = {}
- 
+
     # Initialize base cases (t == 0)
     for y in states:
         V[0][y] = start_p[y] * emit_p[y][obs[0]]
         path[y] = [y]
- 
+
     # Run Viterbi for t > 0
     for t in range(1, len(obs)):
         V.append({})
         newpath = {}
- 
+
         for y in states:
             (prob, state) = max((V[t-1][y0] * trans_p[y0][y] * emit_p[y][obs[t]], y0) for y0 in states)
             V[t][y] = prob
             newpath[y] = path[state] + [y]
- 
+
         # Don't need to remember the old paths
         path = newpath
     n = 0           # if only one element is observed max is sought in the initialization values
@@ -392,9 +392,9 @@ void viterbi(Model *m)
     printf("\n");
     foreach(i, m->n_states) {
         foreach(j, m->n_observations) {
-            debug("[%i][%i] : [%s][%i] -> (%f, %s)", 
+            debug("[%i][%i] : [%s][%i] -> (%f, %s)",
                 i,
-                j, 
+                j,
                 m->states[i],
                 j,
                 m->result[i][j],
@@ -438,6 +438,6 @@ int main()
     // test max
     // double val = max(2, start_prob);
     // debug("max: %f", val);
-    
+
     debug("END");
 }

@@ -37,7 +37,7 @@ class Rectangle {
         store["status"] = "ok";
         vec.push_back(10);
         vec.push_back(20);
-    } 
+    }
     string status() {
         return store["status"];
     }
@@ -64,7 +64,7 @@ class Rectangle {
 int main()
 {
 	Rectangle rect(3.2, 4.1);
-	cout << "area: " << rect.area() << endl;
+	cout << "area: "   << rect.area() << endl;
 	cout << "status: " << rect.status() << endl;
 	rect.dump();
     debug("add: %i", add(21, 10));

@@ -8,7 +8,7 @@ typedef struct sMyClass
 {
   int variable;
 } *MyClass;
- 
+
 MyClass  MyClass_new()
 {
   MyClass pthis = (MyClass)malloc( sizeof(struct sMyClass) );
@@ -16,7 +16,7 @@ MyClass  MyClass_new()
   pthis->variable = 0;
   return pthis;
 }
- 
+
 void MyClass_delete(MyClass* pthis)
 {
   if(pthis && *pthis)
@@ -25,7 +25,7 @@ void MyClass_delete(MyClass* pthis)
     *pthis = NULL;
   }
 }
- 
+
 void MyClass_someMethod(MyClass pthis)
 {
   pthis->variable = 1;

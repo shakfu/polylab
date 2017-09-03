@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-double average(double v1 , double v2,...);
+double average(double v1, double v2, ...);
 
 int main()
 {
@@ -11,7 +11,7 @@ int main()
   printf("\n Average = %lf\n", average(0.0,1.2,1.5));
 }
 
-double average( double v1, double v2,...)
+double average( double v1, double v2, ...)
 {
   va_list parg;
   double sum = v1+v2;

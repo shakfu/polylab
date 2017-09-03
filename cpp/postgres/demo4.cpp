@@ -19,7 +19,7 @@ pqxx::result get_staff()
 void check_employees(pqxx::result employees) {
     for(auto employee : employees)
         {
-            cout 
+            cout
                 << employee["id"].as<string>()   << "\t"
                 << employee["salary"].as<int>()  << endl;
         }
@@ -30,9 +30,9 @@ int main(int, char *argv[])
     try
     {
         pqxx::result employees = get_staff();
-        
+
         //check_employees(employees);
-        
+
         cout << "# of employees: " << employees.size() << endl;
     }
     catch (const std::exception &e)

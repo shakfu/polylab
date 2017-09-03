@@ -38,7 +38,7 @@ int main (int argc, char const *argv[]) {
     int i;
     char *colors[] = {"red", "green", "yellow", "blue", "magenta", "cyan"};
     int ncolors = 6;
-    
+
     for (i=0; i < ncolors; i++) {
         printf("this is %s\n", colored(colors[i], colors[i]));
     }

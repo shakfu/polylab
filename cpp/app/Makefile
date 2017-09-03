@@ -2,11 +2,11 @@
 # 'make clean'  removes all .o and executable files
 # 'make check'	checks for memory leaks
 
-# define the executable file 
+# define the executable file
 MAIN = main
 
 INCLUDES =
-LFLAGS = 
+LFLAGS =
 LIBS =
 
 # directories

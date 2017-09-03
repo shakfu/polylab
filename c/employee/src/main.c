@@ -10,7 +10,7 @@
 
 int main(int argc, char **argv)
 {
-	// test_employees();
+	test_employees();
 	// test_db();
 	// test_utils();
 

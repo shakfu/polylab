@@ -16,7 +16,7 @@ int main()
 
    printf("\nresult = %d", result );
 
-   result = any_function(product,a, b);
+   result = any_function(product, a, b);
 
    printf("\nresult = %d", result );
 

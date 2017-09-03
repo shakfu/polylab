@@ -19,15 +19,15 @@ int main(int, char *argv[])
     try
     {
         pqxx::result employees = get_staff();
-        
+
         cout << "# of employees: " << employees.size() << endl;
-                    
+
         for(auto employee : employees)
         {
-            cout 
+            cout
                 << employee["id"].as<string>()   << "\t"
                 << employee["salary"].as<int>()  << endl;
-        }    
+        }
     }
     catch (const std::exception &e)
     {

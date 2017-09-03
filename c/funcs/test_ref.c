@@ -4,9 +4,9 @@ int change(int* pnumber);   /* Function prototype               */
 
 int main()
 {
-   int number = 20;         
-   int* pnumber = &number;  
-   int result = 0;          
+   int number = 20;
+   int* pnumber = &number;
+   int result = 0;
 
    result = change(pnumber);
    printf("\nIn main, result = %d\tnumber = %d\n", result, number);

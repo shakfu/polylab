@@ -21,7 +21,7 @@ char *combine(const char *path1, const char *path2)
 
 	    const char last_char = path1[strlen(path1) - 1];
 		strcpy(destination, path1);
-		
+
         if (last_char != directory_separator[0])
 			strcat(destination, directory_separator);
 		strcat(destination, path2);

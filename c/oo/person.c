@@ -7,7 +7,7 @@ typedef struct sPerson
     // data
     char *name;
     int age;
-    
+
     // default static methods
     void (*print)(char *txt, char *sub);
     void (*talk) (char *txt);
@@ -28,7 +28,7 @@ Person Person_new(char *name, int age) {
     if (this != NULL) {
         this->name = name;
         this->age = age;
-        
+
         // default function assigned
         this->print = &myprintf;
         this->talk = &mytalk;

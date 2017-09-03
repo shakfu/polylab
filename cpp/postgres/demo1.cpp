@@ -72,24 +72,24 @@ void test_pg() {
     int         row;
     int         col;
     double      salary = 0.0;
-    
+
     conn = PQconnectdb("dbname=sa host=localhost user=sa password=sa");
-    
+
     if (PQstatus(conn) == CONNECTION_BAD) {
         puts("We were unable to connect to the database");
         exit(0);
     }
-    
+
     res = PQexec(conn, "select * from staff");
-    
+
     if (PQresultStatus(res) != PGRES_TUPLES_OK) {
         puts("We did not get any data!");
         exit(0);
     }
-    
+
     rec_count = PQntuples(res);
     printf("We received %d records.\n", rec_count);
-    
+
     for (row=0; row<rec_count; row++) {
         auto value = PQgetvalue(res, row, 18);
         salary += atof(value);

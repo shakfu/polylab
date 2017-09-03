@@ -27,15 +27,15 @@ int main(int, char *argv[])
         }
 
         cout << "# of employees: " << employees.size() << endl;
-        
+
         for(pqxx::result::const_iterator row = employees.begin();
             row != employees.end();
             ++row)
         {
-            cout 
+            cout
                 << row["id"].as<string>()   << "\t"
                 << row["salary"].as<int>()  << endl;
-        }    
+        }
     }
     catch (const std::exception &e)
     {
