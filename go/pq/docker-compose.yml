@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:alpine
+    container_name: db
+    environment:
+    - POSTGRES_USER=sa
+    - POSTGRES_PASSWORD=sa
+    - POSTGRES_DB=sa
+    volumes:
+    - ./test.sql:/docker-entrypoint-initdb.d/test.sql
+
+  go:
+    build: .
+    image: img-go
+    container_name: go
+    links:
+    - db
+    depends_on:
+    - db

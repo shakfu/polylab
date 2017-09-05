@@ -1,6 +1,6 @@
 [package]
 name = "typology"
 version = "0.1.0"
-authors = ["Shakeeb Alireza <shakeeb.alireza@rezayat.net>"]
+authors = ["sa <sa@me.org>"]
 
 [dependencies]

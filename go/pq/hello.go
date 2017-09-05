@@ -1,7 +1,6 @@
 package main
 
 import (
-	"code/mylib"
 	"database/sql"
 	"fmt"
 	"log"

@@ -31,7 +31,7 @@ func GetPersonById(db *sql.DB, id int) (*Person, error) {
 }
 
 func main() {
-	db, err := sql.Open("postgres", "user=sa dbname=sa password=sa sslmode=disable")
+	db, err := sql.Open("postgres", "host=db user=sa dbname=sa password=sa sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
