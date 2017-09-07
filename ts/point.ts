@@ -5,10 +5,10 @@ class Point {
         this.x = x;
         this.y = y;
     }
-    getDist() { 
+    getDist() {
         return Math.sqrt(
-            this.x * this.x + 
-            this.y * this.y); 
+            this.x * this.x +
+            this.y * this.y);
     }
 }
 
