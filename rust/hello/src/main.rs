@@ -25,7 +25,7 @@ trait Printable {
 
 impl Printable for Point {
     fn print(&self) {
-        println!("<Point ({}, {})>", self.x, self.y); 
+        println!("<Point ({}, {})>", self.x, self.y);
     }
 }
 

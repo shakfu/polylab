@@ -1,4 +1,4 @@
-NAME=cmd
+NAME=hello
 
 echo "building using docker"
 docker run --rm \
