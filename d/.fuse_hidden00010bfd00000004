@@ -1,9 +1,0 @@
-echo "building using docker"
-docker run --rm \
-    --user "$(id -u)":"$(id -g)" \
-    -v "$PWD":/src \
-    -w /src \
-    dlanguage:ldc \
-    ldc2 $1
-
-

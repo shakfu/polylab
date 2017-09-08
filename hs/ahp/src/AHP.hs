@@ -12,9 +12,12 @@ see: https://en.wikipedia.org/wiki/Analytic_hierarchy_process
 
 import Data.List (lookup)
 import Data.Maybe (fromJust)
-import Data.Packed.Matrix
-import Numeric.Container
-import Numeric.LinearAlgebra.Algorithms (eig, Field(..))
+-- import Data.Packed.Matrix
+import Numeric.LinearAlgebra.Data
+import Numeric.LinearAlgebra.Devel
+import Numeric.LinearAlgebra
+-- import Numeric.Container
+-- import Numeric.LinearAlgebra.Algorithms (eig, Field(..))
 
 
 tableCR :: (Fractional t1, Num t) => [(t, t1)]
@@ -54,9 +57,12 @@ analyzeEigens m = (principalEigenValue, principalEigenVector)
         principalEigenValue = maxElement eigenvalues
         principalEigenVector = takeDiag eigenvectors
 
+
+-- mapVector :: (Storable a, Storable b) => (a -> b) -> Vector a -> Vector b
+
 normPrincipalEigenVector :: (RealElement b, Convert b, Container Vector b) =>
      Vector (Complex b) -> Vector b
-normPrincipalEigenVector pevec = mapVector (/ total) vec
+normPrincipalEigenVector pevec = cmap (/ total) vec
     where
         (vec, errs) = fromComplex pevec
         total = sumElements vec
