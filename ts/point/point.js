@@ -1,4 +1,4 @@
-var Point = (function () {
+var Point = /** @class */ (function () {
     function Point(x, y) {
         this.x = x;
         this.y = y;
@@ -8,7 +8,7 @@ var Point = (function () {
             this.y * this.y);
     };
     return Point;
-})();
+}());
 var p = new Point(3, 4);
 var dist = p.getDist();
 alert("Hypotenuse is: " + dist);
