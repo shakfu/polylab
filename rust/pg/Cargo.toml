@@ -1,0 +1,8 @@
+[package]
+name = "pg"
+version = "0.1.0"
+authors = ["sa <sa@me.org>"]
+
+[dependencies]
+postgres = "0.15.1"
+
