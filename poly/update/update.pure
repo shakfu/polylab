@@ -1,0 +1,15 @@
+using system;
+using dict;
+
+let ops::Dict = dict [
+    ".bzr" => ["bzr pull", "bzr update"],
+    ".svn" => ["svn update"]];
+
+let list_dir = "ls -d */";
+
+//main n = do puts ["Hello, world!", str (map fact (1..n))];
+
+if argc<=1 then () else main (sscanf (argv!1) "%d");
+
+get_dirs path = split "\n" $ fget $ popen ("ls -d "+ path +"/*") "r";
+

@@ -1,0 +1,8 @@
+#!
+swig -python update.i
+gcc -c -fpic update.c update_wrap.c -I/usr/include/python2.7
+#gcc -c -fpic update.c update_wrap.c -I/usr/include/python2.6
+gcc -shared update.o update_wrap.o -o _update.so
+rm *.o
+rm update_wrap.c
+
