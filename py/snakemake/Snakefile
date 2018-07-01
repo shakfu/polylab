@@ -1,0 +1,45 @@
+from os.path import join
+
+# constants
+TARGETS = ["report"]
+EXTS = ["pdf", "html"]
+
+
+rule all:
+    input:
+        expand("{target}.{ext}", target=TARGETS, ext=EXTS)
+
+rule docx_to_md:
+    """convert docx file to md."""
+    input:
+        "{name}.docx"
+    output:
+        "{name}.md"
+    shell:
+        "pandoc -o {output} {input}"
+
+rule md_to_pdf:
+    """convert md file to pdf."""
+    input:
+        "{name}.md"
+    output:
+        "{name}.pdf"
+    shell:
+        "pandoc -o {output} {input}"
+
+rule md_to_html:
+    """convert md file to html."""
+    input:
+        "{name}.md"
+    output:
+        "{name}.html"
+    shell:
+        "pandoc -s --quiet -o {output} {input}"
+
+onsuccess:
+    shell("rm -f *.md")
+
+rule clean:
+    """clean files"""
+    shell:
+        "rm -f *.html *.pdf"
