@@ -9,8 +9,6 @@ cdef extern from "mlib.h":
 def add(x, y):
     return m_add(x, y)
 
-ctypedef char *string
-
 ctypedef fused floating:
     float
     double
@@ -20,7 +18,7 @@ cdef struct Point:
     int color
 
 cdef class Employee:
-    cdef string name
+    cpdef str name
     cdef int age
     cdef float cash
 

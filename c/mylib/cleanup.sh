@@ -1,3 +1,3 @@
 rm libapp.*
 rm main_*
-rm pylib.so
+rm pylib.*.so
