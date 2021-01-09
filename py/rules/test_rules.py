@@ -32,7 +32,7 @@ class RuleSet:
         if rules:
             #assume 'and' relation
             self.add_ruleset(relation, rules)
-            
+
     def value(self):
         return self.__call__()
 
@@ -44,10 +44,10 @@ class RuleSet:
 
     def add_ruleset(self, relation=None, rules=[]):
         self.rules.append((relation, rules))
-        
+
     def __repr__(self):
         return 'RuleSet(%s) is: %s\n%s' % (id(self), self.value(), pformat(self.rules))
-    
+
     def __call__(self):
         self.bools = []
         for relation, rules in self.rules:
@@ -61,21 +61,21 @@ class RuleSet:
                 raise Exception("default is 'and', must specify 'and' or 'or'")
         #~ print self.bools
         return bool(all(r() for r in self.bools))
-        
+
     #~ def __xor__( self, other) 
-    
+
     def __and__(self, other):
         if callable(other):
             return boo(self() and other())
         else:
             raise Exception('argument must be callable and return a bool value')
-    
+
     def __or__(self, other):
         if callable(other):
             return bool(self() or other())
         else:
             raise Exception('argument must be callable and return a bool value')
-            
+
 
 def ruleset(relation, rules):
     if relation == 'and':
@@ -85,7 +85,7 @@ def ruleset(relation, rules):
     else:
         raise Exception("relation must be 'and' or 'or'")
 
-lst = range(10)
+lst = list(range(10))
 
 r1 = rule(2 > 4)
 r2 = rule('2 in lst')
@@ -130,26 +130,26 @@ ruleset:
     - benefits > risks
 '''
 
-d = yaml.load(rule_txt2)
+d = yaml.safe_load(rule_txt2)
 
 def get_rule_spec(dikt):
     rs = RuleSet()
     for relations in dikt['ruleset']:
         for relation in relations:
-            print relation, relations[relation]
+            print(relation, relations[relation])
             rs.add_ruleset(relation, rules=[
                 (lambda : eval(r)) for r in relations[relation]
             ])
     return rs
 
 rs5 = get_rule_spec(d)
-print rs5
-risks = 5
-print rs5
+#print(rs5)
+#risks = 5
+#print(rs5)
 
 
 rs6 = RuleSet(['0>1', '1<0'])
-print rs6
+#print(rs6)
 
 
 tests = {
@@ -167,9 +167,16 @@ tests = {
 }
 
 def test():
+    fails=0
+    totals=len(tests.keys())
     for rule in tests:
-        assert rule() is tests[rule]
-    print 'all tests pass -----------------------------------------> ok'
+        if rule() is False:
+            print("rule: ", rule)
+            fails +=1
+        #assert rule() is tests[rule]
+    print(f'{totals-fails} out {totals} tests pass')
+
 
 
 test()
+
