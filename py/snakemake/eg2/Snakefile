@@ -1,0 +1,8 @@
+rule build:
+    input:
+        "hello.txt"
+    output:
+        "moon.txt"
+    script:
+        "builder.py"
+
