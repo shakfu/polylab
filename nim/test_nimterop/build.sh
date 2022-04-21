@@ -1,0 +1,2 @@
+nim r mylib.nim
+

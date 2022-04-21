@@ -1,8 +1,0 @@
-{"compile":[
-],
-"link":[
-"/mnt/hgfs/shared/projects/polylab/nim/demo/nimcache/demo.o",
-"/mnt/hgfs/shared/projects/polylab/nim/demo/nimcache/stdlib_system.o"
-],
-"linkcmd": "gcc   -o /mnt/hgfs/shared/projects/polylab/nim/demo/demo  /mnt/hgfs/shared/projects/polylab/nim/demo/nimcache/demo.o /mnt/hgfs/shared/projects/polylab/nim/demo/nimcache/stdlib_system.o    -ldl"
-}
