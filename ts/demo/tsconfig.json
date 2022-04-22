@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "module": "system",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "target": "es5",
+        "jsx": "react",
+        // "jsxFactory": "h",
+        // "jsxFragmentFactory": "Fragment",
+        "outFile": "app.js",
+        "sourceMap": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
+}
