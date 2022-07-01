@@ -5,7 +5,7 @@ import os
 import nimterop/[build, cimport]
 
 const
-  base = currentSourcePath.parentDir() / "build"
+  base = currentSourcePath.parentDir() / "."
 
 echo base
 
