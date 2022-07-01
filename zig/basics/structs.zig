@@ -8,10 +8,12 @@ const Person = struct {
     name: []const u8,
 };
 
-const p = Person{
+var p = Person{
     .age = 10,
     .name = "sam",
 };
+
+var p_ptr: *Person = &p;
 
 const Vector = struct {
     x: f32,
@@ -38,14 +40,16 @@ pub fn main() void {
     print("file: {s}\n", .{string});
 }
 
-// fn age_one_year(person: Person) void {
-//     person.age += 1;
-// }
+fn age_one_year(person: *Person) void {
+    person.age += 1;
+}
 
 test "structs" {
     try expect(p.age == 10);
-    // age_one_year(p);
-    // try expect(p.age == 11);
+    age_one_year(p_ptr);
+    try expect(p.age == 11);
+    age_one_year(&p);
+    try expect(p.age == 12);
     try expect(mem.eql(u8, p.name, "sam"));
 }
 
