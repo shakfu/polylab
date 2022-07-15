@@ -1,0 +1,28 @@
+CFLAGS = \
+	-D_THREAD_SAFE \
+	-I/usr/local/Cellar/guile/3.0.8/include/guile/3.0 \
+	-I/usr/local/opt/gmp \
+	-I/usr/local/opt/gmp/include \
+	-I/usr/local/opt/readline/include \
+	-I/usr/local/opt/bdw-gc/include
+
+STATIC_LIBS = \
+	/usr/local/Cellar/guile/3.0.8/lib/libguile-3.0.a \
+	/usr/local/opt/gmp/lib/libgmp.a \
+	/usr/local/opt/readline/lib/libreadline.a \
+	/usr/local/opt/bdw-gc/lib/libgc.a \
+	/usr/local/opt/libunistring/lib/libunistring.a \
+	/usr/local/opt/gettext/lib/libintl.a \
+	/usr/local/Cellar/guile/3.0.8/lib/guile/3.0/extensions/guile-readline.a
+
+LDFLAGS = -lm -lpthread -lffi -liconv -framework CoreFoundation
+
+test_guile: clean
+	@gcc -o test_guile test_guile.c $(CFLAGS) $(STATIC_LIBS) $(LDFLAGS)
+
+
+.PHONY: clean
+
+clean:
+	@rm -f test_guile
+
