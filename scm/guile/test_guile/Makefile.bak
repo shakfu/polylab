@@ -12,7 +12,6 @@ LIBS = \
 	-L/usr/local/opt/readline \
 	-L/usr/local/opt/bdw-gc
 
-LIBS2 = -L.
 
 STATIC_LIBS = \
 	/usr/local/Cellar/guile/3.0.8/lib/libguile-3.0.a \
@@ -25,16 +24,9 @@ STATIC_LIBS = \
 
 LDFLAGS = -lm -lpthread -lffi -liconv -framework CoreFoundation
 
-LDFLAGS_2 = -lm -lpthread -lffi -liconv -lguile-3.0.1 -lgmp -lgc -lintl -lreadline -framework CoreFoundation
-
-LDFLAGS2 = -lpthread -lguile-3.0.1
-
+LDFLAGS2 = -lm -lpthread -lffi -liconv -lguile-3.0.1 -lgmp -lgc -lintl -lreadline -framework CoreFoundation
 
 dylib: clean
-	@gcc -o test_guile test_guile.c $(CFLAGS) $(LIBS2) -lpthread -lguile
-
-
-dylib2: clean
 	@gcc -o test_guile test_guile.c $(CFLAGS) $(LIBS) $(LDFLAGS2)
 
 
