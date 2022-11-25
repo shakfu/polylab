@@ -13,5 +13,5 @@ To build and test binder
 3. copy or move the resulting `build` binder directory to `~/.binder` and
    symlink as follows: `~/.binder/bin/binder` to `/usr/local/bin/binder`
 
-4. run `./build.sh` in this directory and a demo python extension should be in the `build` directory
+4. run `make` in this directory and a demo python extension should be in the `build` directory
 
