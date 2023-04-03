@@ -1,12 +1,3 @@
-/**
- * @defgroup   unique_ptr demo;
- *
- * @brief      This file implements demo.
- *
- * @author     Sa
- * @date       2023
- */
-
 #include <iostream> // For std::cout
 #include <memory> // For std::unique_ptr, std::make_unique
 
@@ -50,6 +41,8 @@ void demo()
 
 int main()
 {
+    demo();
+    
     auto p1 = make_shared<Person>("sa", 12);
     cout << "p1 count: " << p1.use_count() << endl;
     shared_ptr<Person> p2(p1);

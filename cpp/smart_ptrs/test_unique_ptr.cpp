@@ -1,12 +1,3 @@
-/**
- * @defgroup   unique_ptr demo;
- *
- * @brief      This file implements demo.
- *
- * @author     Sa
- * @date       2023
- */
-
 #include <iostream> // For std::cout
 #include <memory> // For std::unique_ptr, std::make_unique
 
