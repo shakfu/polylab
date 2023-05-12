@@ -1,4 +1,4 @@
-// cbuf.c -- circular buffer
+// cbuf.c -- circular buffer (dynamic memory)
 // variation on: https://en.wikipedia.org/wiki/Circular_buffer
 
 #include <stdio.h>
