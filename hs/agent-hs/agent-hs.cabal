@@ -1,0 +1,99 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.1.
+--
+-- see: https://github.com/sol/hpack
+
+name:           agent-hs
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/agent-hs#readme>
+homepage:       https://github.com/shakfu/agent-hs#readme
+bug-reports:    https://github.com/shakfu/agent-hs/issues
+author:         shakfu
+maintainer:     me@org.com
+copyright:      2023 shakfu
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/shakfu/agent-hs
+
+library
+  exposed-modules:
+      Analysis
+      Config
+      Lib
+      Model
+      Stemming
+      Text
+      Utils
+      Views.Console
+      Views.Html
+  other-modules:
+      Paths_agent_hs
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      HTTP >=4000.0.9
+    , base >=4.7 && <5
+    , blaze-html >=0.4.2.0
+    , blaze-markup >=0.5.1.0
+    , feed >=0.3.8
+    , network >=2.2.1.7
+    , parallel-io >=0.3.2
+    , regex-compat >=0.92
+    , tagsoup >=0.12.3
+    , text >=1.2.5.0
+    , time >=1.1.4
+  default-language: Haskell2010
+
+executable agent-hs-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_agent_hs
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      HTTP >=4000.0.9
+    , agent-hs
+    , base >=4.7 && <5
+    , blaze-html >=0.4.2.0
+    , blaze-markup >=0.5.1.0
+    , feed >=0.3.8
+    , network >=2.2.1.7
+    , parallel-io >=0.3.2
+    , regex-compat >=0.92
+    , tagsoup >=0.12.3
+    , text >=1.2.5.0
+    , time >=1.1.4
+  default-language: Haskell2010
+
+test-suite agent-hs-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_agent_hs
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      HTTP >=4000.0.9
+    , agent-hs
+    , base >=4.7 && <5
+    , blaze-html >=0.4.2.0
+    , blaze-markup >=0.5.1.0
+    , feed >=0.3.8
+    , network >=2.2.1.7
+    , parallel-io >=0.3.2
+    , regex-compat >=0.92
+    , tagsoup >=0.12.3
+    , text >=1.2.5.0
+    , time >=1.1.4
+  default-language: Haskell2010
