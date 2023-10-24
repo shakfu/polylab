@@ -115,13 +115,11 @@ cdef class Person1:
 
 
 def test():
-    # this compiles and works
     p = Person("sam", 50)
     show_person(p._ptr)
 
-    p1 = Person1.new("sue", 50)
-    # this won't compile
-    # show_person(p1._ptr)
+    cdef Person1 p1 = Person1.new("sue", 50)
+    show_person(p1._ptr)
 
 
 
