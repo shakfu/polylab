@@ -1,0 +1,34 @@
+# this is the configuration file
+id = "166116be64ac42b1758a59f482dc8e11"
+
+[application]
+name = "agent"
+version = "1.0"
+usage = "retrieve and display rss feeds using a db"
+
+[server]
+name = "127.0.0.1"
+port = 8080
+enabled = true
+users = ["sa", "sam"]
+staticdir = "./public"
+favicon = "./public/img/favicon.ico"
+
+[db]
+type = "postgres"
+ip = "127.0.0.1"
+port = 9473
+dbname = "sa"
+user = "sa"
+password = "sa"
+
+[templatemanager]
+root = "./view"
+layouts = "layouts/*.tmpl"
+includes = "includes/*.tmpl"
+
+[generator]
+templatepath = "./util/generate/template/*.go"
+configpath   = "./util/generate/models.yml"
+outputpath   = "./util/generate/output"
+

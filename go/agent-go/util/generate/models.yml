@@ -1,0 +1,63 @@
+- name: User
+  fields:
+    - Id
+    - Name
+    - Password
+  fieldmap:
+    Id:       int
+    Name:     string
+    Password: string
+
+- name: Mission
+  fields:
+    - Id
+    - Name
+    - Keywords
+    - Targets
+  fieldmap:
+    Id:       int
+    Name:     string
+    Keywords: string
+    Targets:  "[]Target"
+
+- name: Target
+  fields:
+    - Id
+    - MissionId
+    - Name
+    - Description
+    - Url
+    - Keywords
+    - Category
+    - Relevance
+    - Entries
+  fieldmap:
+    Id:          int
+    MissionId:   int
+    Name:        string
+    Description: string
+    Url:         string
+    Keywords:    string
+    Category:    string
+    Relevance:   float32
+    Entries:     "[]Entry"
+
+- name: Entry
+  fields:
+    - Id
+    - TargetId
+    - Link
+    - Url
+    - Category
+    - Relevance
+  fieldmap:
+    Id:        int
+    TargetId:  int
+    Link:      string
+    Url:       string
+    Category:  string
+    Relevance: float32
+
+
+
+

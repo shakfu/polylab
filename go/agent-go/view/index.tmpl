@@ -1,0 +1,15 @@
+
+<!-- content -->
+{{range .missions}}
+<h1>{{.Name | upper}}</h1>
+{{range .Targets}}
+<h2>{{.Name}}</h2>
+<ul>
+{{range .Entries}}
+<li><a href="{{.Url}}">{{.Link}}</a></li>
+{{end}}
+</ul>
+{{end}}
+{{end}}
+<!-- /content -->
+   

@@ -1,0 +1,85 @@
+
+<h3>Configuration</h3>
+  <table class="table">
+    <tr>
+      <td colspan="2"><strong>Application</strong></td>
+    </tr>
+    <tr>
+      <td>id</td>
+      <td>{{.config.Id}}</td>
+    </tr>
+    <tr>
+      <td>app.name</td>
+      <td>{{.config.Application.Name}}</td>
+    </tr>
+    <tr>
+      <td>app.version</td>
+      <td>{{.config.Application.Version}}</td>
+    </tr>
+    <tr>
+      <td>app.usage</td>
+      <td>{{.config.Application.Usage}}</td>
+    </tr>
+    
+    <tr>
+      <td colspan="2"><strong>Server</strong></td>
+    </tr>
+    <tr>
+      <td>server.host</td>
+      <td>{{.config.Server.Name}}</td>
+    </tr>
+    <tr>
+      <td>server.port</td>
+      <td>{{.config.Server.Port}}</td>
+    </tr>
+
+    <tr>
+      <td colspan="2"><strong>TemplateManager</strong></td>
+    </tr>
+    <tr>
+      <td>templates.root</td>
+      <td>{{.config.TemplateManager.Root}}</td>
+    </tr>
+    <tr>
+      <td>templates.layouts</td>
+      <td>{{.config.TemplateManager.Layouts}}</td>
+    </tr>
+    <tr>
+      <td>templates.includes</td>
+      <td>{{.config.TemplateManager.Includes}}</td>
+    </tr>
+
+    <tr>
+      <td colspan="2"><strong>TemplateManager</strong></td>
+    </tr>
+    <tr>
+      <td>gen.templatepath </td>
+      <td>{{.config.Generator.TemplatePath}}</td>
+    </tr>
+    <tr>
+      <td>gen.configpath   </td>
+      <td>{{.config.Generator.ConfigPath}}</td>
+    </tr>
+    <tr>
+      <td>gen.outputpath </td>
+      <td>{{.config.Generator.OutputPath}}</td>
+    </tr>
+  </table>
+  <hr>
+  <h1>Missions</h1>
+  {{ range .config.Missions }}
+  <h3>{{.Name}}</h3>
+  <p>Keywords: {{.Keywords}}
+  <table class="table">
+    <tr>
+      <th>Target</th>
+      <th>Keywords</th>
+    </tr>
+    {{ range .Targets }}
+    <tr>
+      <td><a href="{{ .Url }}">{{ .Name }}</a></td>
+      <td>{{ .Keywords }}</td>
+    </tr>
+    {{ end }}
+  </table>
+  {{end}}
