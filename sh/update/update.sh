@@ -54,6 +54,29 @@ function update_uv {
     uv self update
 }
 
+function update_src
+{
+    info "updating src" && \
+    cd $HOME/src && \
+    for project in `ls -d *`; do
+        if test -d $project; then
+            echo
+            echo "project: $project"
+            for item in `ls -A $project`; do
+                if [[ $item == ".git" ]]; then
+                    cd $project
+                    git pull
+                else 
+                    continue
+                fi
+            done
+        fi
+    done
+}
+
+
+
+
 function main {
     section "updating components"
     update_brew && \
@@ -61,6 +84,7 @@ function main {
     update_deno && \
     update_rustup && \
     update_uv && \
+    update_src && \
     finished
 }
 
