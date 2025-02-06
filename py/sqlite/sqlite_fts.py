@@ -1,3 +1,21 @@
+"""sqlite_fts.py
+
+code from 
+
+"Using SQLite FTS (Full-Text Search) with Python"
+
+from: https://medium.com/@ccpythonprogramming/using-sqlite-fts-full-text-search-with-python-5d749ea29859
+
+Full-text search (FTS) is a powerful feature that allows you to search text-heavy
+databases quickly. With SQLite, you can use FTS to search large bodies of text more
+efficiently than standard queries. This is particularly useful when you have datasets
+like articles, product descriptions, or any other textual data that needs to be
+searched frequently.
+
+In this article, we’ll explore how to enable FTS in SQLite using Python,
+create a dummy database, and demonstrate some search queries.
+"""
+
 import sqlite3
 
 # Connect to the database (creates one if it doesn't exist)
