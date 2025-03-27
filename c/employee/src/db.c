@@ -3,15 +3,16 @@
 
 #include <libpq-fe.h>
 
-static void exit_nicely(PGconn * conn)
+static void exit_nicely(PGconn* conn)
 {
     PQfinish(conn);
     exit(1);
 }
 
-void test_db(){
-    PGconn *conn;
-    PGresult *res;
+void test_db()
+{
+    PGconn* conn;
+    PGresult* res;
     int nFields;
     int i, j;
 
@@ -20,7 +21,7 @@ void test_db(){
     /* Check to see that the backend connection was successfully made */
     if (PQstatus(conn) != CONNECTION_OK) {
         fprintf(stderr, "Connection to database failed: %s",
-            PQerrorMessage(conn));
+                PQerrorMessage(conn));
         exit_nicely(conn);
     } else {
         printf("connected to db\n");
@@ -28,7 +29,7 @@ void test_db(){
 
     /* exec a query */
     res = PQexec(conn, "select * from users");
-    // printf("PQresultStatus: %d\nPGRES_COMMAND_OK: %d\n", 
+    // printf("PQresultStatus: %d\nPGRES_COMMAND_OK: %d\n",
     //     PQresultStatus(res), PGRES_COMMAND_OK);
 
     // if (PQresultStatus(res) != PGRES_COMMAND_OK) {
@@ -55,4 +56,3 @@ void test_db(){
     PQclear(res);
     exit_nicely(conn);
 }
-

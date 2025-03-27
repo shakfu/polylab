@@ -4,8 +4,8 @@
 
 We can create an array of pointers also dynamically using a double pointer.
 
-Once we have an array pointers allocated dynamically, we can dynamically allocate
-memory and for every row like method 2. 
+Once we have an array pointers allocated dynamically, we can dynamically
+allocate memory and for every row like method 2.
 
 */
 

@@ -1,9 +1,9 @@
 /*
 
-1) Using a single pointer and a 1D array with pointer arithmetic: 
+1) Using a single pointer and a 1D array with pointer arithmetic:
 
 A simple way is to allocate a memory block of size r*c and access its elements
-using simple pointer arithmetic. 
+using simple pointer arithmetic.
 
 */
 
@@ -31,5 +31,3 @@ int main(void)
 
     return 0;
 }
-
-

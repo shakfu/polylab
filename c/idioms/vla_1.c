@@ -15,7 +15,7 @@ void print_array(int n, int m, float (*p)[n][m])
 
 int func1(int n, int m)
 {
-    float(*p)[n][m] = malloc(sizeof *p);
+    float (*p)[n][m] = malloc(sizeof *p);
     if (!p)
         return -1;
     for (int i = 0; i < n; i++)

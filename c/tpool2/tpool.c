@@ -23,12 +23,13 @@ Two Key moments
 #include "tpool.h"
 #include <pthread.h>
 
-void *tpool_thread(void *);
+void* tpool_thread(void*);
 
-void tpool_init(tpool_t **tpoolp, int num_worker_threads, int max_queue_size,
-                int do_not_block_when_full) {
+void tpool_init(tpool_t** tpoolp, int num_worker_threads, int max_queue_size,
+                int do_not_block_when_full)
+{
     int i, rtn;
-    tpool_t *tpool;
+    tpool_t* tpool;
 
     /* allocate a pool data structure */
     if ((tpool = (tpool_t*)malloc(sizeof(tpool_t))) == NULL)
@@ -38,9 +39,10 @@ void tpool_init(tpool_t **tpoolp, int num_worker_threads, int max_queue_size,
     tpool->num_threads = num_worker_threads;
     tpool->max_queue_size = max_queue_size;
     tpool->do_not_block_when_full = do_not_block_when_full;
-    if ((tpool->threads = (pthread_t *)malloc(sizeof(pthread_t) *
-                                              num_worker_threads)) == NULL) {
-        perror("malloc"), exit(1);        
+    if ((tpool->threads = (pthread_t*)malloc(sizeof(pthread_t)
+                                             * num_worker_threads))
+        == NULL) {
+        perror("malloc"), exit(1);
     }
     tpool->cur_queue_size = 0;
     tpool->queue_head = NULL;
@@ -59,34 +61,37 @@ void tpool_init(tpool_t **tpoolp, int num_worker_threads, int max_queue_size,
     /* create threads */
     for (i = 0; i != num_worker_threads; i++) {
         if ((rtn = pthread_create(&(tpool->threads[i]), NULL, tpool_thread,
-                                  (void *)tpool)) != 0)
+                                  (void*)tpool))
+            != 0)
             fprintf(stderr, "pthread_create %d", rtn), exit(1);
     }
 
     *tpoolp = tpool;
 }
 
-int tpool_add_work(tpool_t *tpool, void (*routine)(void *), void *arg) {
+int tpool_add_work(tpool_t* tpool, void (*routine)(void*), void* arg)
+{
     int rtn;
-    tpool_work_t *workp;
+    tpool_work_t* workp;
 
     if ((rtn = pthread_mutex_lock(&(tpool->queue_lock))) != 0)
         fprintf(stderr, "pthread_mutex_lock %d", rtn), exit(1);
 
     /* no space and this caller doesn't want to wait */
-    if ((tpool->cur_queue_size == tpool->max_queue_size) &&
-        tpool->do_not_block_when_full) {
+    if ((tpool->cur_queue_size == tpool->max_queue_size)
+        && tpool->do_not_block_when_full) {
         if ((rtn = pthread_mutex_unlock(&(tpool->queue_lock))) != 0)
             fprintf(stderr, "pthread_mutex_unlock %d", rtn), exit(1);
 
         return -1;
     }
 
-    while ((tpool->cur_queue_size == tpool->max_queue_size) &&
-           (!(tpool->shutdown || tpool->queue_closed))) {
+    while ((tpool->cur_queue_size == tpool->max_queue_size)
+           && (!(tpool->shutdown || tpool->queue_closed))) {
 
         if ((rtn = pthread_cond_wait(&(tpool->queue_not_full),
-                                     &(tpool->queue_lock))) != 0)
+                                     &(tpool->queue_lock)))
+            != 0)
             fprintf(stderr, "pthread_cond_wait %d", rtn), exit(1);
     }
 
@@ -99,7 +104,7 @@ int tpool_add_work(tpool_t *tpool, void (*routine)(void *), void *arg) {
     }
 
     /* allocate work structure */
-    if ((workp = (tpool_work_t *)malloc(sizeof(tpool_work_t))) == NULL)
+    if ((workp = (tpool_work_t*)malloc(sizeof(tpool_work_t))) == NULL)
         perror("malloc"), exit(1);
     workp->routine = routine;
     workp->arg = arg;
@@ -126,9 +131,10 @@ int tpool_add_work(tpool_t *tpool, void (*routine)(void *), void *arg) {
     return 1;
 }
 
-int tpool_destroy(tpool_t *tpool, int finish) {
+int tpool_destroy(tpool_t* tpool, int finish)
+{
     int i, rtn;
-    tpool_work_t *cur_nodep;
+    tpool_work_t* cur_nodep;
 
     if ((rtn = pthread_mutex_lock(&(tpool->queue_lock))) != 0)
         fprintf(stderr, "pthread_mutex_lock %d", rtn), exit(1);
@@ -147,7 +153,8 @@ int tpool_destroy(tpool_t *tpool, int finish) {
     if (finish == 1) {
         while (tpool->cur_queue_size != 0) {
             if ((rtn = pthread_cond_wait(&(tpool->queue_empty),
-                                         &(tpool->queue_lock))) != 0)
+                                         &(tpool->queue_lock)))
+                != 0)
                 fprintf(stderr, "pthread_cond_wait %d", rtn), exit(1);
         }
     }
@@ -180,10 +187,11 @@ int tpool_destroy(tpool_t *tpool, int finish) {
     return rtn;
 }
 
-void *tpool_thread(void *arg) {
-    tpool_t *tpool = (tpool_t*)arg;
+void* tpool_thread(void* arg)
+{
+    tpool_t* tpool = (tpool_t*)arg;
     int rtn;
-    tpool_work_t *my_workp;
+    tpool_work_t* my_workp;
 
     for (;;) {
 
@@ -196,7 +204,8 @@ void *tpool_thread(void *arg) {
             printf("worker %p: I'm sleeping again\n", pthread_self());
 
             if ((rtn = pthread_cond_wait(&(tpool->queue_not_empty),
-                                         &(tpool->queue_lock))) != 0)
+                                         &(tpool->queue_lock)))
+                != 0)
                 fprintf(stderr, "pthread_cond_wait %d", rtn), exit(1);
         }
         sleep(5);
@@ -219,11 +228,12 @@ void *tpool_thread(void *arg) {
         else
             tpool->queue_head = my_workp->next;
 
-        printf("worker %p: dequeing item %p\n", pthread_self(), my_workp->next);
+        printf("worker %p: dequeing item %p\n", pthread_self(),
+               my_workp->next);
 
         /* Handle waiting add_work threads */
-        if ((!tpool->do_not_block_when_full) &&
-            (tpool->cur_queue_size == (tpool->max_queue_size - 1)))
+        if ((!tpool->do_not_block_when_full)
+            && (tpool->cur_queue_size == (tpool->max_queue_size - 1)))
 
             if ((rtn = pthread_cond_broadcast(&(tpool->queue_not_full))) != 0)
                 fprintf(stderr, "pthread_cond_broadcast %d", rtn), exit(1);

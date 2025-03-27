@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 
 /* This function computes the dot product of two floating-point arrays ('x'
    and `y') of length `size'.  The product is communicated back in `z'. */
@@ -7,8 +7,7 @@
 void dot_product(float x[], float y[], float z[], int size)
 {
     int i;
-    for (i = 0; i < size; i = i + 1)
-    {
+    for (i = 0; i < size; i = i + 1) {
         z[i] = x[i] * y[i];
     }
 }
@@ -16,14 +15,13 @@ void dot_product(float x[], float y[], float z[], int size)
 
 /*  The test function exercises dot_product. */
 
-int main (int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 
     int i;
     float a[5], b[5], c[5];
 
-    for (i = 0; i < 5; i = i + 1)
-    {
+    for (i = 0; i < 5; i = i + 1) {
         a[i] = i;
         b[i] = 5;
     }

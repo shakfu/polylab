@@ -3,11 +3,12 @@
 #include <string.h>
 
 
-typedef char *string; 
+typedef char* string;
 
 string say(string);
 
-int main() {
+int main()
+{
     string a = NULL;
     string b = NULL;
 
@@ -16,16 +17,15 @@ int main() {
 
     b = say("Goodbye");
     free(b);
-    
+
     printf("from main: %s %s\n", a, b);
 }
 
 
-string say(string s) {
-    string res = (string) malloc(strlen(s)+1);
+string say(string s)
+{
+    string res = (string)malloc(strlen(s) + 1);
     strcpy(res, s);
     printf("from say: the string is %s\n", res);
     return res;
 }
-
-

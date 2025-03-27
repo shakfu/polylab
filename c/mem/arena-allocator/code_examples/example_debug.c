@@ -8,13 +8,13 @@
 int main(void)
 {
 
-    Arena *arena = arena_create(1024);
+    Arena* arena = arena_create(1024);
 
-    char *x = arena_alloc(arena, 5);
-    char *y = arena_alloc(arena, 25);
+    char* x = arena_alloc(arena, 5);
+    char* y = arena_alloc(arena, 25);
 
-    Arena_Allocation *x_allocation = arena_get_allocation_struct(arena, x);
-    Arena_Allocation *y_allocation = arena_get_allocation_struct(arena, y);
+    Arena_Allocation* x_allocation = arena_get_allocation_struct(arena, x);
+    Arena_Allocation* y_allocation = arena_get_allocation_struct(arena, y);
 
     printf("X index in region: %ld\n", x_allocation->index);
     printf("X size in region: %ld\n", x_allocation->size);

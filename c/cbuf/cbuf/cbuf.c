@@ -5,19 +5,20 @@
 #include <stdlib.h>
 
 typedef struct _t_cbuf {
-    double *buf; /* array as circular buffer of `size_t` ints */
+    double* buf; /* array as circular buffer of `size_t` ints */
     int end;     /* write index */
     int start;   /* read index */
     size_t size; /* size of buffer */
 } t_cbuf;
 
-t_cbuf *cbuf_init(size_t size);
-void cbuf_put(t_cbuf *c, double item);
-double cbuf_get(t_cbuf *c);
-void cbuf_free(t_cbuf *c);
+t_cbuf* cbuf_init(size_t size);
+void cbuf_put(t_cbuf* c, double item);
+double cbuf_get(t_cbuf* c);
+void cbuf_free(t_cbuf* c);
 
-t_cbuf *cbuf_init(size_t size) {
-    t_cbuf *cbuf = malloc(sizeof(t_cbuf));
+t_cbuf* cbuf_init(size_t size)
+{
+    t_cbuf* cbuf = malloc(sizeof(t_cbuf));
     if (!cbuf || !size) {
         printf("error: !cbuf || !size");
         return NULL;
@@ -25,7 +26,7 @@ t_cbuf *cbuf_init(size_t size) {
     cbuf->end = 0;
     cbuf->start = 0;
     cbuf->size = size;
-    cbuf->buf = (double *)calloc(size, sizeof(double));
+    cbuf->buf = (double*)calloc(size, sizeof(double));
     if (!cbuf->buf) {
         free(cbuf);
         return NULL;
@@ -33,24 +34,28 @@ t_cbuf *cbuf_init(size_t size) {
     return cbuf;
 }
 
-void cbuf_put(t_cbuf *c, double item) {
+void cbuf_put(t_cbuf* c, double item)
+{
     c->buf[c->end++] = item;
     c->end %= c->size;
 }
 
-double cbuf_get(t_cbuf *c) {
+double cbuf_get(t_cbuf* c)
+{
     double item = c->buf[c->start++];
     c->start %= c->size;
     return item;
 }
 
-void cbuf_free(t_cbuf *c) {
+void cbuf_free(t_cbuf* c)
+{
     free(c->buf);
     free(c);
 }
 
-int main() {
-    t_cbuf *c = cbuf_init(4);
+int main()
+{
+    t_cbuf* c = cbuf_init(4);
     if (c) {
         double entry = 0.0;
         for (int i = 0; i < 10; i++) {

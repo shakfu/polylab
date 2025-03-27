@@ -54,9 +54,9 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
                 if prob > max_p:
                     max_p = prob
                     state = y0
-                    print '[t%s][%s][%s]' % (t, y, y0), '->', (prob, state)
+                    print('[t%s][%s][%s]' % (t, y, y0), '->', (prob, state))
                 else:
-                    print '[t%s][%s][%s]' % (t, y, y0), '=*', (prob, state)
+                    print('[t%s][%s][%s]' % (t, y, y0), '=*', (prob, state))
             V[t][y] = max_p
             newpath[y] = path[state] + [y]
 
@@ -68,7 +68,7 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
     n = 0   
     if len(obs) != 1:
         n = t
-    print
+    print()
     print_dptable(V)
     (prob, state) = max((V[n][y], y) for y in states)
     #print 'final path:', path
@@ -84,10 +84,10 @@ def print_dptable(V):
     print(s)
 
 def example():
-    print viterbi(observations,
+    print(viterbi(observations,
                    states,
                    start_probability,
                    transition_probability,
-                   emission_probability)
+                   emission_probability))
 example()
 

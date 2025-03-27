@@ -12,13 +12,13 @@
 #define POINTS 800003
 
 
-double gsl_polygon_area(int n_corners, gsl_matrix *m)
+double gsl_polygon_area(int n_corners, gsl_matrix* m)
 {
     double area = 0.0;
     int i, j;
 
-    for (i=0; i < n_corners; i++) {
-        j = (i+1) % n_corners;
+    for (i = 0; i < n_corners; i++) {
+        j = (i + 1) % n_corners;
         // area += corners[i][0] * corners[j][1];
         area += gsl_matrix_get(m, i, 0) * gsl_matrix_get(m, j, 1);
         // area -= corners[j][0] * corners[i][1];
@@ -27,10 +27,10 @@ double gsl_polygon_area(int n_corners, gsl_matrix *m)
     return abs(area) / 2.0;
 }
 
-void points_from_file(int rows, char *path)
+void points_from_file(int rows, char* path)
 {
-    FILE *file;
-    gsl_matrix *m;
+    FILE* file;
+    gsl_matrix* m;
 
     m = gsl_matrix_alloc(rows, COLS);
     file = fopen(path, "r");
@@ -46,13 +46,13 @@ void points_from_file(int rows, char *path)
     gsl_matrix_free(m);
 }
 
-double** polygon_create(int length) 
+double** polygon_create(int length)
 {
     int m = 2;
     int n = length; // two vals per point
     double* values = calloc(m * n, sizeof(double));
     double** rows = malloc(n * sizeof(double*));
-    for (int i=0; i < n; ++i) {
+    for (int i = 0; i < n; ++i) {
         rows[i] = values + i * m;
     }
     return rows;
@@ -67,11 +67,11 @@ void polygon_destroy(double** array)
 void polygon_print(int length, double** matrix)
 {
     int i, j;
-    for (i=0; i < length; i++) {
-        for (j=0; j < COLS; j++) {
+    for (i = 0; i < length; i++) {
+        for (j = 0; j < COLS; j++) {
             printf("[%i][%i] -> %f\n", i, j, matrix[i][j]);
         }
-    }   
+    }
 }
 
 void polygon_test(int length)
@@ -80,7 +80,7 @@ void polygon_test(int length)
     int total = (length + 1) + 3 + length + 1;
 
     double** points = polygon_create(total);
-    
+
     // init
     points[0][0] = x;
     points[0][1] = x;
@@ -95,8 +95,8 @@ double polygon_area(int n_corners, int corners[n_corners][2])
     double area = 0.0;
     int i, j;
 
-    for (i=0; i < n_corners; i++) {
-        j = (i+1) % n_corners;
+    for (i = 0; i < n_corners; i++) {
+        j = (i + 1) % n_corners;
         area += corners[i][0] * corners[j][1];
         area -= corners[j][0] * corners[i][1];
     }
@@ -107,8 +107,9 @@ double polygon_area2(int n_corners, int points[n_corners][2])
 {
     double area = 0.0;
 
-    for (int i=0; i < n_corners - 1; i++) {
-        area += points[i][0] * points[i+1][1] - points[i+1][0] * points[i][1];
+    for (int i = 0; i < n_corners - 1; i++) {
+        area += points[i][0] * points[i + 1][1]
+            - points[i + 1][0] * points[i][1];
     }
     return abs(area) / 2.0;
 }
@@ -119,8 +120,8 @@ double area(int corners[ROWS][COLS], int n_corners)
     double _area = 0.0;
     int i, j;
 
-    for (i=0; i < n_corners; i++) {
-        j = (i+1) % n_corners;
+    for (i = 0; i < n_corners; i++) {
+        j = (i + 1) % n_corners;
         _area += corners[i][0] * corners[j][1];
         _area -= corners[j][0] * corners[i][1];
     }
@@ -132,8 +133,8 @@ double area2(int m[ROWS][COLS], int n_corners)
     double _area = 0.0;
     int i;
 
-    for (i=0; i < n_corners - 1; i++) {
-        _area += m[i][0] * m[i+1][1] - m[i+1][0] * m[i][1];
+    for (i = 0; i < n_corners - 1; i++) {
+        _area += m[i][0] * m[i + 1][1] - m[i + 1][0] * m[i][1];
     }
     return abs(_area) / 2.0;
 }
@@ -142,42 +143,41 @@ double area2(int m[ROWS][COLS], int n_corners)
 void display_int(int matrix[ROWS][COLS])
 {
     int i, j;
-    for (i=0; i < ROWS; i++) {
-        for (j=0; j < COLS; j++) {
+    for (i = 0; i < ROWS; i++) {
+        for (j = 0; j < COLS; j++) {
             printf("[%i][%i] -> %i\n", i, j, matrix[i][j]);
         }
-    }   
+    }
 }
-
 
 
 void display(double matrix[ROWS][COLS])
 {
     int i, j;
-    for (i=0; i < ROWS; i++) {
-        for (j=0; j < COLS; j++) {
+    for (i = 0; i < ROWS; i++) {
+        for (j = 0; j < COLS; j++) {
             printf("[%i][%i] -> %f\n", i, j, matrix[i][j]);
         }
-    }   
+    }
 }
 
 void sum(int matrix[ROWS][COLS])
 {
     int i, j;
     int _sum = 0;
-    for (i=0; i < ROWS; i++) {
-        for (j=0; j < COLS; j++) {
+    for (i = 0; i < ROWS; i++) {
+        for (j = 0; j < COLS; j++) {
             _sum += matrix[i][j];
             printf("[%i][%i] -> sum: %i\n", i, j, _sum);
         }
-    }   
+    }
 }
 
 
 int read_points(void)
 {
-    FILE *fp;
-    char *line = NULL;
+    FILE* fp;
+    char* line = NULL;
     size_t len = 0;
     double x, y;
 
@@ -187,14 +187,14 @@ int read_points(void)
     }
 
     int result;
-    while (getline(&line, &len, fp) != -1) {        
+    while (getline(&line, &len, fp) != -1) {
         // printf("%s", line);
         result = sscanf(line, "%lf %lf\n", &x, &y);
         if (result != 2) {
             printf("result: %i\n", result);
             die("unsuccessful sscanf\n");
         }
-        //debug("x: %f y: %f", x, y);
+        // debug("x: %f y: %f", x, y);
     }
 
     if (line) {
@@ -208,7 +208,7 @@ void test_sscanf()
 {
     int result;
     double x, y;
-    char * buffer = "547.25 547.25";
+    char* buffer = "547.25 547.25";
     result = sscanf(buffer, "%lf %lf", &x, &y);
     if (result != 2) {
         printf("result: %i\n", result);
@@ -218,9 +218,7 @@ void test_sscanf()
 }
 
 
-
-
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     // int i, j;
     // int matrix[ROWS][COLS] = {
@@ -240,9 +238,9 @@ int main(int argc, char **argv)
     // printf("polygon_area2: %f\n", polygon_area2(ROWS, matrix));
 
     read_points();
-    //points_from_file(POINTS, "points.txt");
-    // polygon_test(2);
-    // test_sscanf();
+    // points_from_file(POINTS, "points.txt");
+    //  polygon_test(2);
+    //  test_sscanf();
 
     return 0;
 }

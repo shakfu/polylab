@@ -1,8 +1,7 @@
 
 #include <stdio.h>
 
-typedef struct _foo
-{
+typedef struct _foo {
     int x;
     int y;
 } t_foo;
@@ -16,7 +15,7 @@ void display(t_foo f[static 1])
 
 int main(void)
 {
-    t_foo foo = {.x = 10, .y=20};
+    t_foo foo = { .x = 10, .y = 20 };
     display(&foo);
     display(NULL);
 

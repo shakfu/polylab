@@ -1,30 +1,15 @@
 #include "common.h"
 
-char *test_dlopen()
+char* test_dlopen() { return NULL; }
+
+char* test_functions() { return NULL; }
+
+char* test_failures() { return NULL; }
+
+char* test_dlclose() { return NULL; }
+
+char* all_tests()
 {
-
-    return NULL;
-}
-
-char *test_functions()
-{
-
-    return NULL;
-}
-
-char *test_failures()
-{
-
-    return NULL;
-}
-
-char *test_dlclose()
-{
-
-    return NULL;
-}
-
-char *all_tests() {
     mu_suite_start();
 
     mu_run_test(test_dlopen);

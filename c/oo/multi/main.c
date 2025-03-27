@@ -1,11 +1,11 @@
-#include <stdio.h>
 #include "person.h"
+#include <stdio.h>
 
 int main()
 {
     // redirect to output.txt
-    //freopen("output.txt", "w", stdout);
-    
+    // freopen("output.txt", "w", stdout);
+
     // create it
     Person person = Person_new("sam", 21);
     // do something
@@ -16,4 +16,3 @@ int main()
     Person_delete(&person);
     printf("done.\n");
 }
-

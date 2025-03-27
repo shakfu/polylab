@@ -1,6 +1,6 @@
 #include "debug.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 
 void test_debug()
@@ -30,15 +30,15 @@ void test_log_info()
     log_info("It happened %f times today.", 1.3f);
 }
 
-int test_check(char *file_name)
+int test_check(char* file_name)
 {
-    FILE *input = NULL;
-    char *block = NULL;
+    FILE* input = NULL;
+    char* block = NULL;
 
     block = malloc(100);
     check_mem(block); // should work
 
-    input = fopen(file_name,"r");
+    input = fopen(file_name, "r");
     check(input, "Failed to open %s.", file_name);
 
     free(block);
@@ -46,35 +46,38 @@ int test_check(char *file_name)
     return 0;
 
 error:
-    if(block) free(block);
-    if(input) fclose(input);
+    if (block)
+        free(block);
+    if (input)
+        fclose(input);
     return -1;
 }
 
 int test_sentinel(int code)
 {
-    char *temp = malloc(100);
+    char* temp = malloc(100);
     check_mem(temp);
 
-    switch(code) {
-        case 1:
-            log_info("It worked.");
-            break;
-        default:
-            sentinel("I shouldn't run.");
+    switch (code) {
+    case 1:
+        log_info("It worked.");
+        break;
+    default:
+        sentinel("I shouldn't run.");
     }
 
     free(temp);
     return 0;
 
 error:
-    if(temp) free(temp);
+    if (temp)
+        free(temp);
     return -1;
 }
 
 int test_check_mem()
 {
-    char *test = NULL;
+    char* test = NULL;
     check_mem(test);
 
     free(test);
@@ -94,7 +97,7 @@ error:
     return -1;
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     check(argc == 2, "Need an argument.");
 

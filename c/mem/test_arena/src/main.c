@@ -1,6 +1,6 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
 
 // Define the arena structure
 typedef struct {
@@ -10,7 +10,8 @@ typedef struct {
 } Arena;
 
 // Initialize the arena
-int arena_init(Arena* arena, size_t size) {
+int arena_init(Arena* arena, size_t size)
+{
     arena->buffer = malloc(size);
     if (arena->buffer == NULL) {
         return -1; // Allocation failed
@@ -21,7 +22,8 @@ int arena_init(Arena* arena, size_t size) {
 }
 
 // Allocate memory from the arena
-void* arena_alloc(Arena* arena, size_t size) {
+void* arena_alloc(Arena* arena, size_t size)
+{
     if (arena->offset + size > arena->size) {
         return NULL; // Not enough space
     }
@@ -31,19 +33,19 @@ void* arena_alloc(Arena* arena, size_t size) {
 }
 
 // Reset the arena (free all allocations at once)
-void arena_reset(Arena* arena) {
-    arena->offset = 0;
-}
+void arena_reset(Arena* arena) { arena->offset = 0; }
 
 // Destroy the arena
-void arena_destroy(Arena* arena) {
+void arena_destroy(Arena* arena)
+{
     free(arena->buffer);
     arena->buffer = NULL;
     arena->size = 0;
     arena->offset = 0;
 }
 
-int main() {
+int main()
+{
     // Create an arena with a size of 1024 bytes
     Arena arena;
     if (arena_init(&arena, 1024) != 0) {
@@ -60,7 +62,7 @@ int main() {
     *num1 = 10;
 
     int* num2 = (int*)arena_alloc(&arena, sizeof(int));
-     if (num2 == NULL) {
+    if (num2 == NULL) {
         fprintf(stderr, "Failed to allocate memory for num2\n");
         return 1;
     }
@@ -73,21 +75,20 @@ int main() {
 
     // Reset the arena (free all allocations at once)
     arena_reset(&arena);
-     printf("Current offset after reset: %zu\n", arena.offset);
+    printf("Current offset after reset: %zu\n", arena.offset);
 
-     // Allocate again after reset
+    // Allocate again after reset
     int* num3 = (int*)arena_alloc(&arena, sizeof(int));
-     if (num3 == NULL) {
+    if (num3 == NULL) {
         fprintf(stderr, "Failed to allocate memory for num3\n");
         return 1;
     }
     *num3 = 30;
     printf("num3: %d\n", *num3);
-     printf("Current offset after allocating num3: %zu\n", arena.offset);
+    printf("Current offset after allocating num3: %zu\n", arena.offset);
 
     // Destroy the arena
     arena_destroy(&arena);
 
     return 0;
 }
-

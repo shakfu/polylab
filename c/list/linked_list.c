@@ -3,57 +3,53 @@
 
 struct node {
     int data;
-    struct node *next;
+    struct node* next;
 };
 
-struct node* add(struct node *head, int data) {
-    struct node *tmp;
+struct node* add(struct node* head, int data)
+{
+    struct node* tmp;
 
     if (head == NULL) {
-        head=(struct node *)malloc(sizeof(struct node));
+        head = (struct node*)malloc(sizeof(struct node));
         if (head == NULL) {
             printf("Error! memory is not available\n");
             exit(0);
         }
-        head-> data = data;
-        head-> next = head;
+        head->data = data;
+        head->next = head;
     } else {
         tmp = head;
 
-        while (tmp-> next != head)
-            tmp = tmp-> next;
-        tmp-> next = (struct node *)malloc(sizeof(struct node));
-        if (tmp -> next == NULL)
-        {
+        while (tmp->next != head)
+            tmp = tmp->next;
+        tmp->next = (struct node*)malloc(sizeof(struct node));
+        if (tmp->next == NULL) {
             printf("Error! memory is not available\n");
             exit(0);
         }
-        tmp = tmp-> next;
-        tmp-> data = data;
-        tmp-> next = head;
+        tmp = tmp->next;
+        tmp->data = data;
+        tmp->next = head;
     }
     return head;
 }
 
-void printlist(struct node *head)
+void printlist(struct node* head)
 {
-    struct node *current;
+    struct node* current;
     current = head;
-    if (current!= NULL)
-    {
-        do
-        {
-            printf("%d\t",current->data);
+    if (current != NULL) {
+        do {
+            printf("%d\t", current->data);
             current = current->next;
-        } while (current!= head);
+        } while (current != head);
         printf("\n");
-    }
-    else
+    } else
         printf("The list is empty\n");
-
 }
 
-void destroy(struct node *head)
+void destroy(struct node* head)
 {
     struct node *current, *tmp;
 
@@ -68,21 +64,19 @@ void destroy(struct node *head)
 
 int main()
 {
-    struct node *head = NULL;
-    head = add(head,1); /* 1 */
+    struct node* head = NULL;
+    head = add(head, 1); /* 1 */
     printlist(head);
 
-    head = add(head,20);/* 20 */
+    head = add(head, 20); /* 20 */
     printlist(head);
 
-    head = add(head,10);/* 1 20 10 */
+    head = add(head, 10); /* 1 20 10 */
     printlist(head);
 
-    head = add(head,5); /* 1 20 10 5*/
+    head = add(head, 5); /* 1 20 10 5*/
     printlist(head);
 
     destroy(head);
     getchar();
 }
-
-

@@ -6,25 +6,18 @@
 
 int state;
 
-void
-usage ()
+void usage()
 {
-  printf ("Plugin example usage: frobnication-name\n");
-  exit (1);
+    printf("Plugin example usage: frobnication-name\n");
+    exit(1);
 }
 
-void
-init (int argc, char *argv[])
+void init(int argc, char* argv[])
 {
-  if (argc != 1)
-    {
-      usage ();
+    if (argc != 1) {
+        usage();
     }
-  state = strlen (argv[0]);
+    state = strlen(argv[0]);
 }
 
-int
-query ()
-{
-  return state;
-}
+int query() { return state; }

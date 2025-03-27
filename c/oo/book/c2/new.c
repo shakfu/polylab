@@ -3,48 +3,53 @@
 
 #include "new.h"
 
-void * new (const void * _class, ...)
-{	const struct Class * class = _class;
-	void * p = calloc(1, class -> size);
+void* new(const void* _class, ...)
+{
+    const struct Class* class = _class;
+    void* p = calloc(1, class->size);
 
-	assert(p);
-	* (const struct Class **) p = class;
+    assert(p);
+    *(const struct Class**)p = class;
 
-	if (class -> ctor)
-	{	va_list ap;
+    if (class->ctor) {
+        va_list ap;
 
-		va_start(ap, _class);
-		p = class -> ctor(p, & ap);
-		va_end(ap);
-	}
-	return p;
+        va_start(ap, _class);
+        p = class->ctor(p, &ap);
+        va_end(ap);
+    }
+    return p;
 }
 
-void delete (void * self)
-{	const struct Class ** cp = self;
+void delete(void* self)
+{
+    const struct Class** cp = self;
 
-	if (self && * cp && (* cp) -> dtor)
-		self = (* cp) -> dtor(self);
-	free(self);
+    if (self && *cp && (*cp)->dtor)
+        self = (*cp)->dtor(self);
+    free(self);
 }
 
-void * clone (const void * self)
-{	const struct Class * const * cp = self;
+void* clone(const void* self)
+{
+    const struct Class* const* cp = self;
 
-	assert(self && * cp && (* cp) -> clone);
-	return (* cp) -> clone(self);
+    assert(self && *cp && (*cp)->clone);
+    return (*cp)->clone(self);
 }
 
-int differ (const void * self, const void * b)
-{	const struct Class * const * cp = self;
+int differ(const void* self, const void* b)
+{
+    const struct Class* const* cp = self;
 
-	assert(self && * cp && (* cp) -> differ);
-	return (* cp) -> differ(self, b);
+    assert(self && *cp && (*cp)->differ);
+    return (*cp)->differ(self, b);
 }
 
-size_t sizeOf (const void * self)
-{	const struct Class * const * cp = self;
+size_t sizeOf(const void* self)
+{
+    const struct Class* const* cp = self;
 
-	assert(self && * cp);
-	return (* cp) -> size;
+    assert(self && *cp);
+    return (*cp)->size;
 }

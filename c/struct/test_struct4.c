@@ -1,32 +1,27 @@
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 
-typedef char *str;
+typedef char* str;
 
-typedef struct Person
-{
+typedef struct Person {
     // data
     str name;
     int age;
-    
+
     // methods
     void (*print)(str txt, str sub);
-    void (*talk) (str txt);
+    void (*talk)(str txt);
 } Person;
 
 
+void myprintf(str s1, str s2) { printf(s1, s2); }
 
-void myprintf(str s1, str s2) {
-    printf(s1, s2);
-}
+void mytalk(str speach) { printf("say: %s \n", speach); }
 
-void mytalk(str speach) {
-    printf("say: %s \n", speach);
-}
-
-Person *makePerson(str name, int age) {
-    Person *p = malloc(sizeof(Person));
+Person* makePerson(str name, int age)
+{
+    Person* p = malloc(sizeof(Person));
     if (p != NULL) {
         p->name = name;
         p->age = age;
@@ -36,7 +31,8 @@ Person *makePerson(str name, int age) {
     return p;
 }
 
-void show(Person *p) {
+void show(Person* p)
+{
     printf("name: %s \n", p->name);
     printf("age: %i  \n", p->age);
     p->print("hello %s \n", "world");
@@ -45,13 +41,12 @@ void show(Person *p) {
 
 int main()
 {
-    // create it   
-    Person *person = makePerson("sam", 21);
-    
-    // show it 
+    // create it
+    Person* person = makePerson("sam", 21);
+
+    // show it
     show(person);
-    
+
     // finale
     person->print("nice one %s\n", "!");
 }
-

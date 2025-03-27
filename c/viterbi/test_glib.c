@@ -10,7 +10,8 @@ void test1()
     list = g_list_insert(list, "Baltimore ", 1);
     printf("The second item is '%s'\n", (char*)g_list_next(list)->data);
     list = g_list_remove(list, "Baltimore ");
-    printf("After removal of 'Baltimore', the list length is %d\n", g_list_length(list));
+    printf("After removal of 'Baltimore', the list length is %d\n",
+           g_list_length(list));
     GList* other_list = g_list_append(NULL, "Baltimore ");
     list = g_list_concat(list, other_list);
     printf("After concatenation: ");
@@ -30,9 +31,12 @@ void test2()
     printf("Here's the list: ");
     g_list_foreach(list, (GFunc)printf, NULL);
     GList* last = g_list_last(list);
-    printf("\nThe first item (using g_list_first) is '%s'\n", (char*)g_list_first(last)->data);
-    printf("The next-to-last item is '%s'\n", (char*)g_list_previous(last)->data);
-    printf("The next-to-last item is '%s'\n", (char*)g_list_nth_prev(last, 1)->data);
+    printf("\nThe first item (using g_list_first) is '%s'\n",
+           (char*)g_list_first(last)->data);
+    printf("The next-to-last item is '%s'\n",
+           (char*)g_list_previous(last)->data);
+    printf("The next-to-last item is '%s'\n",
+           (char*)g_list_nth_prev(last, 1)->data);
     g_list_free(list);
     printf("\n\n");
 }
@@ -64,10 +68,13 @@ void test4()
     list = g_list_append(list, "Cheyenne ");
     printf("Here's the list: ");
     g_list_foreach(list, (GFunc)printf, NULL);
-    printf("\nItem 'Bowie' is located at index %d\n", g_list_index(list, "Bowie "));
-    printf("Item 'Dallas' is located at index %d\n", g_list_index(list, "Dallas"));
+    printf("\nItem 'Bowie' is located at index %d\n",
+           g_list_index(list, "Bowie "));
+    printf("Item 'Dallas' is located at index %d\n",
+           g_list_index(list, "Dallas"));
     GList* last = g_list_last(list);
-    printf("Item 'Cheyenne' is located at index %d\n", g_list_position(list, last));
+    printf("Item 'Cheyenne' is located at index %d\n",
+           g_list_position(list, last));
     g_list_free(list);
     printf("\n\n");
 }
@@ -79,9 +86,11 @@ void test5()
     g_hash_table_insert(hash, "Texas", "Austin");
     g_hash_table_insert(hash, "Ohio", "Columbus");
     printf("There are %d keys in the hash\n", g_hash_table_size(hash));
-    printf("The capital of Texas is %s\n", (char*)g_hash_table_lookup(hash, "Texas"));
+    printf("The capital of Texas is %s\n",
+           (char*)g_hash_table_lookup(hash, "Texas"));
     gboolean found = g_hash_table_remove(hash, "Virginia");
-    printf("The value 'Virginia' was %sfound and removed\n", found ? "" : "not ");
+    printf("The value 'Virginia' was %sfound and removed\n",
+           found ? "" : "not ");
     g_hash_table_destroy(hash);
 }
 

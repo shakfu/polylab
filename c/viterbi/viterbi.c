@@ -37,30 +37,26 @@ typedef struct Model {
     // inputs
     string name;
     int n_states;
-    string *states;
+    string* states;
     int n_observations;
-    string *observations;
-    double *start_prob;
-    double **transitions;
-    double **emissions;
+    string* observations;
+    double* start_prob;
+    double** transitions;
+    double** emissions;
     // outputs
-    double **result;
-    int    **path;
+    double** result;
+    int** path;
 
 } Model;
 
 
-
-
-
-Model * model_create(string name,
-                     int n_states, string *states,
-                     int n_observations, string *observations,
-                     double start_prob[n_states],
-                     double transitions[][n_states],
-                     double emissions[][n_observations])
+Model* model_create(string name, int n_states, string* states,
+                    int n_observations, string* observations,
+                    double start_prob[n_states],
+                    double transitions[][n_states],
+                    double emissions[][n_observations])
 {
-    Model *model;
+    Model* model;
     model = malloc(sizeof(*model));
 
     // init name
@@ -69,7 +65,7 @@ Model * model_create(string name,
     // init states (K)
     model->n_states = n_states;
     model->states = malloc(n_states * sizeof(string));
-    foreach(i, n_states) {
+    foreach (i, n_states) {
         model->states[i] = strdup(states[i]);
     }
 
@@ -80,50 +76,50 @@ Model * model_create(string name,
     // init observations
     model->n_observations = n_observations;
     model->observations = malloc(n_observations * sizeof(string));
-    foreach(i, n_observations) {
+    foreach (i, n_observations) {
         model->observations[i] = strdup(observations[i]);
     }
 
     // init start_prob (n_states)
     model->start_prob = calloc(n_states, sizeof(double));
-    foreach(i, n_states) {
+    foreach (i, n_states) {
         model->start_prob[i] = start_prob[i];
     }
 
     // init transitions (n_states * n_states)
     model->transitions = malloc(n_states * sizeof(double*));
-    foreach(i, n_states) {
+    foreach (i, n_states) {
         model->transitions[i] = calloc(n_states, sizeof(double));
     }
-    foreach(i, n_states) {
-        foreach(j, n_states) {
+    foreach (i, n_states) {
+        foreach (j, n_states) {
             model->transitions[i][j] = transitions[i][j];
         }
     }
 
     // init emissions (n_states * n_observations)
     model->emissions = malloc(n_states * sizeof(double*));
-    foreach(i, n_states) {
+    foreach (i, n_states) {
         model->emissions[i] = calloc(n_observations, sizeof(double));
     }
-    foreach(i, n_states) {
-        foreach(j, n_observations) {
+    foreach (i, n_states) {
+        foreach (j, n_observations) {
             model->emissions[i][j] = emissions[i][j];
         }
     }
 
     // init result
     model->result = malloc(model->n_states * sizeof(double*));
-    foreach(i, model->n_states) {
+    foreach (i, model->n_states) {
         model->result[i] = calloc(model->n_observations, sizeof(double));
     }
 
     // init path
     model->path = malloc(model->n_states * sizeof(int*));
-    foreach(i, model->n_states) {
+    foreach (i, model->n_states) {
         model->path[i] = calloc(model->n_observations, sizeof(int));
         // set cell to -1 to show when it hasn't been written
-        foreach(j, model->n_observations) {
+        foreach (j, model->n_observations) {
             model->path[i][j] = -1;
         }
     }
@@ -131,14 +127,14 @@ Model * model_create(string name,
     return model;
 }
 
-void model_destroy(Model *m)
+void model_destroy(Model* m)
 {
     // name
     free(m->name);
 
     // free state memory
     if (m->states != NULL) {
-        foreach(i, m->n_states) {
+        foreach (i, m->n_states) {
             free(m->states[i]);
         }
     }
@@ -146,7 +142,7 @@ void model_destroy(Model *m)
 
     // free observations memory
     if (m->observations != NULL) {
-        foreach(i, m->n_observations) {
+        foreach (i, m->n_observations) {
             free(m->observations[i]);
         }
     }
@@ -159,7 +155,7 @@ void model_destroy(Model *m)
 
     // free transitions memory
     if (m->transitions != NULL) {
-        foreach(i, m->n_states) {
+        foreach (i, m->n_states) {
             free(m->transitions[i]);
         }
     }
@@ -167,7 +163,7 @@ void model_destroy(Model *m)
 
     // free emissions memory
     if (m->emissions != NULL) {
-        foreach(i, m->n_states) {
+        foreach (i, m->n_states) {
             free(m->emissions[i]);
         }
     }
@@ -175,7 +171,7 @@ void model_destroy(Model *m)
 
     // free result
     if (m->result != NULL) {
-        foreach(i, m->n_states) {
+        foreach (i, m->n_states) {
             free(m->result[i]);
         }
     }
@@ -183,7 +179,7 @@ void model_destroy(Model *m)
 
     // free path
     if (m->path != NULL) {
-        foreach(i, m->n_states) {
+        foreach (i, m->n_states) {
             free(m->path[i]);
         }
     }
@@ -195,42 +191,42 @@ void model_destroy(Model *m)
     }
 }
 
-void model_display(Model *m)
+void model_display(Model* m)
 {
     printf("Model: %s\n", m->name);
 
-    foreach(i, m->n_states) {
+    foreach (i, m->n_states) {
         printf("states[%i]: %s\n", i, m->states[i]);
     }
 
-    foreach(i, m->n_observations) {
+    foreach (i, m->n_observations) {
         printf("observations[%i]: %s\n", i, m->observations[i]);
     }
 
-    foreach(i, m->n_states) {
+    foreach (i, m->n_states) {
         printf("start_prob[%i] -> %f\n", i, m->start_prob[i]);
     }
 
-    foreach(i, m->n_states) {
-        foreach(j, m->n_states) {
+    foreach (i, m->n_states) {
+        foreach (j, m->n_states) {
             printf("transitions[%i][%i] -> %f\n", i, j, m->transitions[i][j]);
         }
     }
 
-    foreach(i, m->n_states) {
-        foreach(j, m->n_observations) {
+    foreach (i, m->n_states) {
+        foreach (j, m->n_observations) {
             printf("emissions[%i][%i] -> %f\n", i, j, m->emissions[i][j]);
         }
     }
 
-    foreach(i, m->n_states) {
-        foreach(j, m->n_observations) {
+    foreach (i, m->n_states) {
+        foreach (j, m->n_observations) {
             printf("result[%i][%i] -> %f\n", i, j, m->result[i][j]);
         }
     }
 
-    foreach(i, m->n_states) {
-        foreach(j, m->n_observations) {
+    foreach (i, m->n_states) {
+        foreach (j, m->n_observations) {
             printf("path[%i][%i] -> %i\n", i, j, m->path[i][j]);
         }
     }
@@ -241,7 +237,7 @@ int argmax1(int length, double array[length])
 {
     double max = DOUBLE_MIN;
     int index = 0;
-    foreach(i, length) {
+    foreach (i, length) {
         if (array[i] > max) {
             max = array[i];
             index = i;
@@ -259,7 +255,7 @@ double argmax(int length, double array[length], score_func func)
     double max = DOUBLE_MIN;
     double score = 0.0;
     int index = 0;
-    foreach(i, length) {
+    foreach (i, length) {
         score = func(array[i]);
         if (score > max) {
             max = score;
@@ -273,7 +269,7 @@ double argmax(int length, double array[length], score_func func)
 double max(int length, double array[length])
 {
     double value = 0.0;
-    for (int i=0; i < length; i++) {
+    for (int i = 0; i < length; i++) {
         if (array[i] > value) {
             value = array[i];
         }
@@ -314,21 +310,18 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
         newpath = {}
 
         for y in states:
-            (prob, state) = max((V[t-1][y0] * trans_p[y0][y] * emit_p[y][obs[t]], y0) for y0 in states)
-            V[t][y] = prob
-            newpath[y] = path[state] + [y]
+            (prob, state) = max((V[t-1][y0] * trans_p[y0][y] *
+emit_p[y][obs[t]], y0) for y0 in states) V[t][y] = prob newpath[y] =
+path[state] + [y]
 
         # Don't need to remember the old paths
         path = newpath
-    n = 0           # if only one element is observed max is sought in the initialization values
-    if len(obs)!=1:
-        n = t
-    print_dptable(V)
-    (prob, state) = max((V[n][y], y) for y in states)
-    return (prob, path[state])
+    n = 0           # if only one element is observed max is sought in the
+initialization values if len(obs)!=1: n = t print_dptable(V) (prob, state) =
+max((V[n][y], y) for y in states) return (prob, path[state])
 */
 
-void viterbi(Model *m)
+void viterbi(Model* m)
 {
     double max_p = 0.0;
     double prob = 0.0;
@@ -336,7 +329,7 @@ void viterbi(Model *m)
     int state, t;
 
     // initialize base cases (t==0) with initial probabilities
-    foreach(i, m->n_states) {
+    foreach (i, m->n_states) {
         m->result[i][0] = m->start_prob[i] * m->emissions[i][0];
         m->path[i][0] = i;
         // debug("t0 -> %s : [%s]", m->states[i], m->states[m->path[i][0]]);
@@ -344,20 +337,21 @@ void viterbi(Model *m)
 
 
     // run viterbi for t > 0
-    for (t=1; t < m->n_observations; t++) {
-        for (int y=0; y < m->n_states; y++) {
+    for (t = 1; t < m->n_observations; t++) {
+        for (int y = 0; y < m->n_states; y++) {
             max_p = 0.0;
             state = 0;
-            for (int y0=0; y0 < m->n_states; y0++) {
-                prob = m->result[y0][t-1] * m->transitions[y0][y] * m->emissions[y][t];
+            for (int y0 = 0; y0 < m->n_states; y0++) {
+                prob = m->result[y0][t - 1] * m->transitions[y0][y]
+                    * m->emissions[y][t];
                 if (prob > max_p) {
                     max_p = prob;
                     state = y0;
-                    debug("[t%i][%i][%i] -> (%f, %s)", t, y, y0, 
-                        max_p, m->states[state]);
+                    debug("[t%i][%i][%i] -> (%f, %s)", t, y, y0, max_p,
+                          m->states[state]);
                 } else {
-                    debug("[t%i][%i][%i] =* (%f, %s)", t, y, y0, 
-                        max_p, m->states[state]);
+                    debug("[t%i][%i][%i] =* (%f, %s)", t, y, y0, max_p,
+                          m->states[state]);
                 }
             }
             m->result[y][t] = max_p;
@@ -365,14 +359,15 @@ void viterbi(Model *m)
         }
     }
 
-    // if only one element is observed max is sought in the initialization values
+    // if only one element is observed max is sought in the initialization
+    // values
     int n = 0;
     if (m->n_observations != 1) {
-        n = t-1;
+        n = t - 1;
     }
     // (prob, state) = max((V[n][y], y) for y in states)
     max_p = prob = 0;
-    for (int i=0; i < m->n_states; i++) {
+    for (int i = 0; i < m->n_states; i++) {
         // debug("n: %i", n);
         prob = m->result[i][n];
         if (prob > max_p) {
@@ -382,23 +377,17 @@ void viterbi(Model *m)
     }
     // should be (0.0134, ['Sunny', 'Rainy', 'Rainy'])
     debug("   (0.013440, Rainy: [Sunny, Rainy, Rainy])");
-    debug("=> (%f, %s: [%s, %s, %s])", max_p,
-        m->states[state],
-        m->states[m->path[state][0]],
-        m->states[m->path[state][1]],
-        m->states[m->path[state][2]]);
+    debug("=> (%f, %s: [%s, %s, %s])", max_p, m->states[state],
+          m->states[m->path[state][0]], m->states[m->path[state][1]],
+          m->states[m->path[state][2]]);
 
     // debug
     printf("\n");
-    foreach(i, m->n_states) {
-        foreach(j, m->n_observations) {
-            debug("[%i][%i] : [%s][%i] -> (%f, %s)",
-                i,
-                j,
-                m->states[i],
-                j,
-                m->result[i][j],
-                m->path[i][j] >= 0 ? m->states[m->path[i][j]] : "NONE");
+    foreach (i, m->n_states) {
+        foreach (j, m->n_observations) {
+            debug("[%i][%i] : [%s][%i] -> (%f, %s)", i, j, m->states[i], j,
+                  m->result[i][j],
+                  m->path[i][j] >= 0 ? m->states[m->path[i][j]] : "NONE");
         }
     }
 }
@@ -409,30 +398,19 @@ int main()
 
     string model_name = "Hidden Markov Model";
     int n_states = 2, n_observations = 3;
-    string states[] = {"Rainy", "Sunny"};
-    string observations[] = {"Walk", "Shop", "Clean"};
-    double start_prob[2] = {0.6, 0.4};
-    double transitions[2][2] = {
-        { 0.7, 0.3 },
-        { 0.4, 0.6 }
-    };
-    double emissions[2][3] = {
-        { 0.1, 0.4, 0.5 },
-        { 0.6, 0.3, 0.1 }
-    };
+    string states[] = { "Rainy", "Sunny" };
+    string observations[] = { "Walk", "Shop", "Clean" };
+    double start_prob[2] = { 0.6, 0.4 };
+    double transitions[2][2] = { { 0.7, 0.3 }, { 0.4, 0.6 } };
+    double emissions[2][3] = { { 0.1, 0.4, 0.5 }, { 0.6, 0.3, 0.1 } };
 
-    Model *m = model_create(
-        model_name,
-        n_states, states,
-        n_observations, observations,
-        start_prob,
-        transitions,
-        emissions);
+    Model* m = model_create(model_name, n_states, states, n_observations,
+                            observations, start_prob, transitions, emissions);
 
     // run viterbi
     viterbi(m);
 
-    //model_display(m);
+    // model_display(m);
     model_destroy(m);
 
     // test max

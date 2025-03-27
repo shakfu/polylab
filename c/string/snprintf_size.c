@@ -1,17 +1,18 @@
-#include<stdio.h>
+#include <stdio.h>
 #define BUFSIZE 9
 
-void init_buf(char *buf, size_t size);
-void print_buf(char *buf);
+void init_buf(char* buf, size_t size);
+void print_buf(char* buf);
 
-int main(){
+int main()
+{
     char buf[BUFSIZE];
     print_buf(buf);
-    
+
     snprintf(buf, BUFSIZE, "turtle");
     printf("%s\n", buf);
     print_buf(buf);
-    
+
     init_buf(buf, BUFSIZE);
     print_buf(buf);
 
@@ -33,23 +34,24 @@ int main(){
     return 0;
 }
 
-void init_buf(char *buf, size_t size){
+void init_buf(char* buf, size_t size)
+{
     int i;
-    for(i=0; i<size; i++){
+    for (i = 0; i < size; i++) {
         buf[i] = i + '0'; // int to char conversion
     }
 }
 
-void print_buf(char *buf){
+void print_buf(char* buf)
+{
     int i;
     char c;
-    for(i=0; i<BUFSIZE; i++){
+    for (i = 0; i < BUFSIZE; i++) {
         c = buf[i];
-        if(c == '\0'){
+        if (c == '\0') {
             printf("\\0");
 
-        }
-        else{
+        } else {
             printf("%c", buf[i]);
         }
     }

@@ -1,35 +1,32 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 
+typedef struct sMyClass {
+    int variable;
+}* MyClass;
 
-typedef struct sMyClass
+MyClass MyClass_new()
 {
-  int variable;
-} *MyClass;
-
-MyClass  MyClass_new()
-{
-  MyClass pthis = (MyClass)malloc( sizeof(struct sMyClass) );
-  //memset(pthis, 0, sizeof(struct sMyClass) );
-  pthis->variable = 0;
-  return pthis;
+    MyClass pthis = (MyClass)malloc(sizeof(struct sMyClass));
+    // memset(pthis, 0, sizeof(struct sMyClass) );
+    pthis->variable = 0;
+    return pthis;
 }
 
 void MyClass_delete(MyClass* pthis)
 {
-  if(pthis && *pthis)
-  {
-    free(*pthis);
-    *pthis = NULL;
-  }
+    if (pthis && *pthis) {
+        free(*pthis);
+        *pthis = NULL;
+    }
 }
 
 void MyClass_someMethod(MyClass pthis)
 {
-  pthis->variable = 1;
-  printf("var: %d\n", pthis->variable);
+    pthis->variable = 1;
+    printf("var: %d\n", pthis->variable);
 }
 
 int main(void)
@@ -40,4 +37,3 @@ int main(void)
 
     return 0;
 }
-

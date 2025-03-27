@@ -1,8 +1,8 @@
 #define _GNU_SOURCE
+#include "common.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include "common.h"
 
 #define COLS 3
 #define N_POINTS 800003
@@ -18,10 +18,9 @@ double** polygon_create(int n)
         exit(EXIT_FAILURE);
     }
 
-    for (i=0; i < n; i++) {
+    for (i = 0; i < n; i++) {
         points[i] = calloc(m, sizeof(double));
-        if (points[i] == NULL)
-        {
+        if (points[i] == NULL) {
             break;
         }
     }
@@ -36,7 +35,7 @@ void polygon_destroy(int n, double** matrix)
 {
     int i;
     if (matrix != NULL) {
-        for (i=0; i < n; i++) {
+        for (i = 0; i < n; i++) {
             free(matrix[i]);
             matrix[i] = NULL;
         }
@@ -47,10 +46,11 @@ void polygon_destroy(int n, double** matrix)
 
 // comparison function for qsort
 // compares values of third column of matrix
-int compare(const void *pa, const void *pb) {
-    const double *a = *(const double **)pa;
-    const double *b = *(const double **)pb;    
-    return (int) (a[2] > b[2]) - (a[2] < b[2]);
+int compare(const void* pa, const void* pb)
+{
+    const double* a = *(const double**)pa;
+    const double* b = *(const double**)pb;
+    return (int)(a[2] > b[2]) - (a[2] < b[2]);
 }
 
 
@@ -61,7 +61,7 @@ void polygon_angles(int n, double** matrix)
     double cy = 0.0;
     double dx, dy;
 
-    for (i=0; i < n; i++) {
+    for (i = 0; i < n; i++) {
         cx += matrix[i][0];
         cy += matrix[i][1];
     }
@@ -69,11 +69,12 @@ void polygon_angles(int n, double** matrix)
     cx = cx / n;
     cy = cy / n;
 
-    for (i=0; i < n; i++) {
+    for (i = 0; i < n; i++) {
         dx = matrix[i][0] - cx;
         dy = matrix[i][1] - cy;
         // set angle (first convert from radians to degrees)
-        matrix[i][2] = (180/M_PI) * fmod((atan2(dy, dx) + 2.0 * M_PI), (2.0 * M_PI));
+        matrix[i][2] = (180 / M_PI)
+            * fmod((atan2(dy, dx) + 2.0 * M_PI), (2.0 * M_PI));
     }
 
     // sort the matrix according to angles
@@ -83,20 +84,20 @@ void polygon_angles(int n, double** matrix)
 void polygon_print(int n, double** matrix)
 {
     int i, j;
-    for (i=0; i < n; i++) {
-        for (j=0; j < COLS; j++) {
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < COLS; j++) {
             printf("[%i][%i] -> %f\n", i, j, matrix[i][j]);
         }
-    }   
+    }
 }
 
-double polygon_area(int n, double **matrix)
+double polygon_area(int n, double** matrix)
 {
     double area = 0.0;
     int i, j;
 
-    for (i=0; i < n; i++) {
-        j = (i+1) % n;
+    for (i = 0; i < n; i++) {
+        j = (i + 1) % n;
         area += matrix[i][0] * matrix[j][1];
         area -= matrix[j][0] * matrix[i][1];
     }
@@ -105,8 +106,8 @@ double polygon_area(int n, double **matrix)
 
 double** polygon_from_file(int n_points, char* path)
 {
-    FILE *fp;
-    char *line = NULL;
+    FILE* fp;
+    char* line = NULL;
     size_t len = 0;
     double x, y;
     int result;
@@ -120,7 +121,7 @@ double** polygon_from_file(int n_points, char* path)
     }
 
     // read line by line and parse points
-    while (getline(&line, &len, fp) != -1) {        
+    while (getline(&line, &len, fp) != -1) {
         result = sscanf(line, "%lf %lf\n", &x, &y);
         if (result != 2) {
             printf("result: %i\n", result);
@@ -153,6 +154,6 @@ int main(void)
 {
     double area = polygon_area_from_file(N_POINTS, "points.txt");
     printf("no of points: %i\n", N_POINTS);
-    printf("area: %f\n", area);    
+    printf("area: %f\n", area);
     exit(EXIT_SUCCESS);
 }

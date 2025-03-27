@@ -4,14 +4,6 @@
 
 int state;
 
-void
-init ()
-{
-  /* Do nothing */
-}
+void init() { /* Do nothing */ }
 
-int
-query ()
-{
-  return (int) time (NULL);
-}
+int query() { return (int)time(NULL); }

@@ -12,11 +12,6 @@ long int fib(long int n)
     return b;
 }
 
-void test(long int n) {
-    printf("fib(%li) -> %li\n", n, fib(n));
-}
+void test(long int n) { printf("fib(%li) -> %li\n", n, fib(n)); }
 
-int main()
-{
-    test(100);
-}
+int main() { test(100); }

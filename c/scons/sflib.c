@@ -3,9 +3,8 @@
 
 int display(void)
 {
-  coprintf("hello %s", "person!");
-  printf("cwd: %s", get_curdir());
-  //printf("hello world\n");
-  return 0;
+    coprintf("hello %s", "person!");
+    printf("cwd: %s", get_curdir());
+    // printf("hello world\n");
+    return 0;
 }
-

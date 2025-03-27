@@ -1,19 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <gsl/gsl_sf_bessel.h>
-#include <gsl/gsl_matrix.h>
-#include <gsl/gsl_vector.h>
 #include <gsl/gsl_linalg.h>
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_sf_bessel.h>
 #include <gsl/gsl_statistics.h>
+#include <gsl/gsl_vector.h>
 
 #define ARRAY_SIZE(array) sizeof(array) / sizeof(array[0])
 
 
-void test_matrix_from_file(int rows, int cols, char *path)
+void test_matrix_from_file(int rows, int cols, char* path)
 {
-    FILE *file;
-    gsl_matrix *m;
+    FILE* file;
+    gsl_matrix* m;
 
     m = gsl_matrix_alloc(rows, cols);
     file = fopen(path, "r");
@@ -37,16 +37,15 @@ void test_gsl()
 
 void test_matrix()
 {
-    gsl_matrix *m = gsl_matrix_alloc(10, 3);
+    gsl_matrix* m = gsl_matrix_alloc(10, 3);
 
     for (int i = 0; i < 10; i++)
         for (int j = 0; j < 3; j++)
             gsl_matrix_set(m, i, j, 0.23 + 100 * i + j);
 
-    for (int i = 0; i < 10; i++)    /* OUT OF RANGE ERROR */
+    for (int i = 0; i < 10; i++) /* OUT OF RANGE ERROR */
         for (int j = 0; j < 3; j++)
-            printf("m(%d,%d) = %g\n", i, j,
-                   gsl_matrix_get(m, i, j));
+            printf("m(%d,%d) = %g\n", i, j, gsl_matrix_get(m, i, j));
 
     gsl_matrix_free(m);
 }
@@ -54,21 +53,21 @@ void test_matrix()
 int test_matrix_to_file()
 {
     int i, j, k = 0;
-    gsl_matrix *m = gsl_matrix_alloc(100, 100);
-    gsl_matrix *a = gsl_matrix_alloc(100, 100);
+    gsl_matrix* m = gsl_matrix_alloc(100, 100);
+    gsl_matrix* a = gsl_matrix_alloc(100, 100);
 
     for (i = 0; i < 100; i++)
         for (j = 0; j < 100; j++)
             gsl_matrix_set(m, i, j, 0.23 + i + j);
 
     {
-        FILE *f = fopen("test.dat", "wb");
+        FILE* f = fopen("test.dat", "wb");
         gsl_matrix_fwrite(f, m);
         fclose(f);
     }
 
     {
-        FILE *f = fopen("test.dat", "rb");
+        FILE* f = fopen("test.dat", "rb");
         gsl_matrix_fread(f, a);
         fclose(f);
     }
@@ -90,13 +89,13 @@ int test_matrix_to_file()
 
 void test_vector()
 {
-    gsl_vector *v = gsl_vector_alloc(3);
+    gsl_vector* v = gsl_vector_alloc(3);
 
     for (int i = 0; i < 3; i++) {
         gsl_vector_set(v, i, 1.23 + i);
     }
 
-    for (int i = 0; i < 3; i++) {   /* OUT OF RANGE ERROR */
+    for (int i = 0; i < 3; i++) { /* OUT OF RANGE ERROR */
         printf("v_%d = %g\n", i, gsl_vector_get(v, i));
     }
 
@@ -105,14 +104,14 @@ void test_vector()
 
 void test_vector_to_file()
 {
-    gsl_vector *v = gsl_vector_alloc(100);
+    gsl_vector* v = gsl_vector_alloc(100);
 
     for (int i = 0; i < 100; i++) {
         gsl_vector_set(v, i, 1.23 + i);
     }
 
     {
-        FILE *f = fopen("test.dat", "w");
+        FILE* f = fopen("test.dat", "w");
         gsl_vector_fprintf(f, v, "%.5g");
         fclose(f);
     }
@@ -122,10 +121,10 @@ void test_vector_to_file()
 
 void test_vector_from_file()
 {
-    gsl_vector *v = gsl_vector_alloc(10);
+    gsl_vector* v = gsl_vector_alloc(10);
 
     {
-        FILE *f = fopen("test.dat", "r");
+        FILE* f = fopen("test.dat", "r");
         gsl_vector_fscanf(f, v);
         fclose(f);
     }
@@ -141,31 +140,27 @@ void test_linalg()
 /* solves the linear system Ax = b
  *
  * (0.18, 0.60, 0.57, 0.96,    (x0,    (1.0,
- *  0.41, 0.24, 0.99, 0.58,     x1,  =  2.0, 
+ *  0.41, 0.24, 0.99, 0.58,     x1,  =  2.0,
  *  0.14, 0.30, 0.97, 0.66,     x2,     3.0,
  *  0.51, 0.13, 0.19, 0.85)     x3)     4.0)
-*/
+ */
 {
-    double a_data[] = {
-        0.18, 0.60, 0.57, 0.96,
-        0.41, 0.24, 0.99, 0.58,
-        0.14, 0.30, 0.97, 0.66,
-        0.51, 0.13, 0.19, 0.85
-    };
+    double a_data[] = { 0.18, 0.60, 0.57, 0.96, 0.41, 0.24, 0.99, 0.58,
+                        0.14, 0.30, 0.97, 0.66, 0.51, 0.13, 0.19, 0.85 };
 
     double b_data[] = { 1.0, 2.0, 3.0, 4.0 };
 
     gsl_matrix_view m = gsl_matrix_view_array(a_data, 4, 4);
     gsl_vector_view b = gsl_vector_view_array(b_data, 4);
-    gsl_vector *x = gsl_vector_alloc(4);
+    gsl_vector* x = gsl_vector_alloc(4);
 
     int s;
 
-    gsl_permutation * p = gsl_permutation_alloc(4); 
-    gsl_linalg_LU_decomp(&m.matrix, p, &s); 
+    gsl_permutation* p = gsl_permutation_alloc(4);
+    gsl_linalg_LU_decomp(&m.matrix, p, &s);
     gsl_linalg_LU_solve(&m.matrix, p, &b.vector, x);
 
-    printf("x = \n"); 
+    printf("x = \n");
     gsl_vector_fprintf(stdout, x, "%g");
     gsl_permutation_free(p);
     gsl_vector_free(x);
@@ -173,7 +168,7 @@ void test_linalg()
 
 void test_stats()
 {
-    double data[5] = {17.2, 18.1, 16.5, 18.3, 12.6}; 
+    double data[5] = { 17.2, 18.1, 16.5, 18.3, 12.6 };
     double mean, variance, largest, smallest;
     size_t stride = 1;
     size_t size = ARRAY_SIZE(data);
@@ -183,13 +178,15 @@ void test_stats()
     largest = gsl_stats_max(data, stride, size);
     smallest = gsl_stats_min(data, stride, size);
 
-    printf ("The dataset is %g, %g, %g, %g, %g\n", data[0], data[1], data[2], data[3], data[4]);
-    printf ("The sample mean is %g\n", mean);
-    printf ("The estimated variance is %g\n", variance);
-    printf ("The largest value is %g\n", largest); printf ("The smallest value is %g\n", smallest);
+    printf("The dataset is %g, %g, %g, %g, %g\n", data[0], data[1], data[2],
+           data[3], data[4]);
+    printf("The sample mean is %g\n", mean);
+    printf("The estimated variance is %g\n", variance);
+    printf("The largest value is %g\n", largest);
+    printf("The smallest value is %g\n", smallest);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     test_gsl();
 

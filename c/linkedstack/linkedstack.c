@@ -5,11 +5,9 @@ struct node {
     struct node* next;
 };
 
-void init(struct node* s) {
-    s = NULL;
-}
+void init(struct node* s) { s = NULL; }
 
-struct node* push(struct node* s,int data)
+struct node* push(struct node* s, int data)
 {
     struct node* tmp = (struct node*)malloc(sizeof(struct node));
     if (tmp == NULL) {
@@ -21,7 +19,7 @@ struct node* push(struct node* s,int data)
     s = tmp;
     return s;
 }
-struct node* pop(struct node *s,int *element)
+struct node* pop(struct node* s, int* element)
 {
     struct node* tmp = s;
     *element = s->data;
@@ -30,6 +28,4 @@ struct node* pop(struct node *s,int *element)
     return s;
 }
 
-int empty(struct node* s) {
-    return s == NULL ? 1 : 0;
-}
+int empty(struct node* s) { return s == NULL ? 1 : 0; }

@@ -10,7 +10,7 @@ typedef struct _person {
 
 void display(void* data)
 {
-    t_person *p = (t_person*)data;
+    t_person* p = (t_person*)data;
     printf("p->age = %d\n", p->age);
 }
 
@@ -21,14 +21,13 @@ int main(void)
     p.age = 100;
     printf("p.age = %d\n", p.age);
 
-    t_person* p1 =  malloc(sizeof (t_person*));
+    t_person* p1 = malloc(sizeof(t_person*));
     if (p1 == NULL)
         return -1;
-    
+
     p1->age = 200;
     display((t_person*)p1);
     free(p1);
 
     return 0;
 }
-

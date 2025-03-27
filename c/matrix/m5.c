@@ -5,7 +5,8 @@
 The dimensions of VLA are bound to the type of the variable.
 
 Therefore one form a pointer to an array with run-time defined shape.
-The pointer has to be dereferenced before subscripting with syntax (*arr)[i][j].
+The pointer has to be dereferenced before subscripting with syntax
+(*arr)[i][j].
 
 */
 
@@ -17,7 +18,7 @@ int main()
     int row = 3, col = 4, i, j, count;
 
     int (*arr)[row][col] = malloc(sizeof *arr);
-    
+
     count = 0;
     for (i = 0; i < row; i++)
         for (j = 0; j < col; j++)
@@ -28,6 +29,6 @@ int main()
             printf("%d ", (*arr)[i][j]);
 
     free(arr);
-    
+
     return 0;
 }

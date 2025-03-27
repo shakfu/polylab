@@ -1,54 +1,49 @@
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-struct Person
-{
-    const char *name;
-    const char *state;
+struct Person {
+    const char* name;
+    const char* state;
 };
 
-struct Person people[] = 
-{
-    {"sam", "sad"},
-    {"jon", "sad"}
-};
+struct Person people[] = { { "sam", "sad" }, { "jon", "sad" } };
 
-int count = sizeof (people) / sizeof (struct Person);
+int count = sizeof(people) / sizeof(struct Person);
 
-int person_cmp (const struct Person *p1, const struct Person *p2)
+int person_cmp(const struct Person* p1, const struct Person* p2)
 {
     return strcmp(p1->name, p2->name);
 }
 
-void print_person (const struct Person *c)
+void print_person(const struct Person* c)
 {
     printf("%s, the %s\n", c->name, c->state);
 }
 
-void find_person (const char *name)
+void find_person(const char* name)
 {
     struct Person target, *result;
     target.name = name;
-    result = bsearch (&target, people, count, sizeof (struct Person),
-                      person_cmp);
+    result = bsearch(&target, people, count, sizeof(struct Person),
+                     person_cmp);
     if (result)
         print_person(result);
     else
-        printf ("Couldn't find %s.\n", name);
+        printf("Couldn't find %s.\n", name);
 }
 
 int main(void)
 {
     int i;
-    for (i=0; i < count; i++)
+    for (i = 0; i < count; i++)
         print_person(&people[i]);
     printf("\n");
 
-    qsort(people, count, sizeof (struct Person), person_cmp);
+    qsort(people, count, sizeof(struct Person), person_cmp);
 
-    for (i=0; i < count; i++)
+    for (i = 0; i < count; i++)
         print_person(&people[i]);
     printf("\n");
 
@@ -58,4 +53,3 @@ int main(void)
 
     return 0;
 }
-

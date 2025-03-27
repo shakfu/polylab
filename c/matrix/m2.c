@@ -1,10 +1,10 @@
 /*
 
-2) Using an array of pointers 
+2) Using an array of pointers
 
-We can create an array of pointers of size r. Note that from C99, C language allows 
-variable sized arrays. After creating an array of pointers, we can dynamically allocate
-memory for every row.
+We can create an array of pointers of size r. Note that from C99, C language
+allows variable sized arrays. After creating an array of pointers, we can
+dynamically allocate memory for every row.
 
 */
 
@@ -37,4 +37,3 @@ int main()
 
     return 0;
 }
-

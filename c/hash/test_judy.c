@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include "Judy.h"
+#include <stdio.h>
 
 typedef char* string;
 
@@ -8,17 +8,17 @@ typedef struct dict {
     PWord_t cursor;
 } dict;
 
-dict *dict_create()
+dict* dict_create()
 {
-    dict *d;
+    dict* d;
     d = malloc(sizeof(*d));
-    d->map = (Pvoid_t) NULL;
+    d->map = (Pvoid_t)NULL;
     d->cursor = NULL;
     return d;
 }
 
 // type specialized insert
-int dict_insert(dict *d, string key, double value)
+int dict_insert(dict* d, string key, double value)
 {
     JSLI(d->cursor, d->map, key);
     *(d->cursor) = value;
@@ -26,7 +26,7 @@ int dict_insert(dict *d, string key, double value)
 }
 
 // type specialized get
-double dict_get(dict *d, string key)
+double dict_get(dict* d, string key)
 {
     JSLG(d->cursor, d->map, key);
     if (d->cursor == NULL) {
@@ -36,17 +36,17 @@ double dict_get(dict *d, string key)
     return *(d->cursor);
 }
 
-double dict_destroy(dict *d)
-{   
+double dict_destroy(dict* d)
+{
     JudySLFreeArray(&(d->map), PJE0);
     d->cursor = NULL;
     free(d);
 }
 
- 
+
 int main()
 {
-    dict *d = dict_create();
+    dict* d = dict_create();
     dict_insert(d, "hello", 100.0);
     printf("value: %f\n", dict_get(d, "hello"));
     dict_destroy(d);
@@ -67,12 +67,14 @@ int main()
 
     // /* unknown key */
     // JSLG(value, hashmap, "nonexistingkey");
-    // if ( value == NULL ) { fprintf(stderr, "key 'nonexistingkey' does not exist\n"); }
+    // if ( value == NULL ) { fprintf(stderr, "key 'nonexistingkey' does not
+    // exist\n"); }
 
     // /* deleting */
     // JSLD(retval, hashmap, "world");
     // JSLG(value, hashmap, "world");
-    // if ( value == NULL ) { fprintf(stderr, "key 'world' does not exist anymore\n"); }
+    // if ( value == NULL ) { fprintf(stderr, "key 'world' does not exist
+    // anymore\n"); }
 
     // JudySLFreeArray(&hashmap, PJE0);
 

@@ -7,30 +7,28 @@
 int main()
 {
     struct node* head = NULL;
-    int size,element,counter = 0;
+    int size, element, counter = 0;
 
     /*
-    	 stack size is dynamic and
-      	 specified at runtime
+         stack size is dynamic and
+         specified at runtime
     */
     printf("Enter stack size:");
-    scanf("%d",&size);
+    scanf("%d", &size);
 
     printf("Push elements to stack\n");
     init(head);
-    while (counter < size)
-    {
+    while (counter < size) {
         getchar();
         element = rand();
-        printf("push element %d into stack\n",element);
-        head = push(head,element);
+        printf("push element %d into stack\n", element);
+        head = push(head, element);
         counter++;
     }
     printf("Pop elements from stack\n");
-    while (0 == empty(head))
-    {
-        head = pop(head,&element);
-        printf("pop element %d from stack\n",element);
+    while (0 == empty(head)) {
+        head = pop(head, &element);
+        printf("pop element %d from stack\n", element);
         getchar();
     }
 

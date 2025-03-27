@@ -1,18 +1,18 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-extern char *strdup(const char *s);
+extern char* strdup(const char* s);
 
 
 typedef struct counter {
     int val;
-    char *name;
+    char* name;
 } counter;
 
-counter *counter_create(int start, char* name)
+counter* counter_create(int start, char* name)
 {
-    counter *c;
+    counter* c;
 
     c = malloc(sizeof(*c));
     c->val = start;
@@ -21,7 +21,7 @@ counter *counter_create(int start, char* name)
     return c;
 }
 
-void counter_destroy(counter *c)
+void counter_destroy(counter* c)
 {
     if (c == NULL)
         return;
@@ -29,42 +29,42 @@ void counter_destroy(counter *c)
     free(c);
 }
 
-void counter_add(counter *c, int amount)
+void counter_add(counter* c, int amount)
 {
     if (c == NULL)
         return;
     c->val += amount;
 }
 
-void counter_subtract(counter *c, int amount)
+void counter_subtract(counter* c, int amount)
 {
     if (c == NULL)
         return;
     c->val -= amount;
 }
 
-void counter_increment(counter *c)
+void counter_increment(counter* c)
 {
     if (c == NULL)
         return;
     c->val++;
 }
 
-void counter_decrement(counter *c)
+void counter_decrement(counter* c)
 {
     if (c == NULL)
         return;
     c->val--;
 }
 
-int counter_getval(counter *c)
+int counter_getval(counter* c)
 {
     if (c == NULL)
         return 0;
     return c->val;
 }
 
-void counter_show(counter *c)
+void counter_show(counter* c)
 {
     printf("counter: %d\n", c->val);
     printf("counter.name: %s\n", c->name);
@@ -73,7 +73,7 @@ void counter_show(counter *c)
 
 int main()
 {
-    counter *c  = counter_create(0, "hello world");
+    counter* c = counter_create(0, "hello world");
     counter_add(c, 10);
     counter_show(c);
     counter_destroy(c);

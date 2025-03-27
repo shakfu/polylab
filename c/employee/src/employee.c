@@ -7,9 +7,9 @@
 #define MAX_EMPLOYEES 2
 
 // is needed because of -std=c99
-extern char *strdup(const char *s);
+extern char* strdup(const char* s);
 
-void employee_display(Employee * e)
+void employee_display(Employee* e)
 {
     printf("e.id: %d\n", e->id);
     printf("e.name: %s %s\n", e->firstname, e->lastname);
@@ -18,16 +18,16 @@ void employee_display(Employee * e)
     printf("\n\n");
 }
 
-Employee *employee_new()
+Employee* employee_new()
 {
-    Employee *e = malloc(sizeof(Employee));
+    Employee* e = malloc(sizeof(Employee));
     if (e == NULL)
         return NULL;
 
     return e;
 }
 
-void employee_delete(Employee * e)
+void employee_delete(Employee* e)
 {
     if (e->firstname != NULL) {
         free(e->firstname);
@@ -41,11 +41,9 @@ void employee_delete(Employee * e)
     if (e != NULL) {
         free(e);
     }
-
-
 }
 
-void employees_delete(Employee ** employees)
+void employees_delete(Employee** employees)
 {
     for (int i = 0; i < MAX_EMPLOYEES; i++) {
         employee_delete(employees[i]);
@@ -55,7 +53,7 @@ void employees_delete(Employee ** employees)
     }
 }
 
-void employees_populate(Employee ** employees)
+void employees_populate(Employee** employees)
 {
     for (int i = 0; i < MAX_EMPLOYEES; i++) {
         employees[i]->id = i;
@@ -66,16 +64,16 @@ void employees_populate(Employee ** employees)
     }
 }
 
-void employees_display(Employee ** employees)
+void employees_display(Employee** employees)
 {
     for (int i = 0; i < MAX_EMPLOYEES; i++) {
         employee_display(employees[i]);
     }
 }
 
-Employee **employees_init()
+Employee** employees_init()
 {
-    Employee **employees = malloc(MAX_EMPLOYEES * sizeof(Employee *));
+    Employee** employees = malloc(MAX_EMPLOYEES * sizeof(Employee*));
     for (int i = 0; i < MAX_EMPLOYEES; i++) {
         employees[i] = employee_new();
     }
@@ -84,7 +82,7 @@ Employee **employees_init()
 
 void test_employees()
 {
-    Employee **employees = employees_init();
+    Employee** employees = employees_init();
     employees_populate(employees);
     employees_display(employees);
     employees_delete(employees);
