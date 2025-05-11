@@ -1,0 +1,9 @@
+.DS_Store
+.vscode
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+*.sqlite3
+Package.resolved
+
