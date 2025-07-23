@@ -637,20 +637,21 @@ class MakefileGenerator:
         """Add linker flags to the Makefile"""
         self._add_entry_or_variable("ldflags", "", None, *entries, **kwargs)
 
-    def add_target(
-        self, name: str, body: Optional[str] = None, deps: Optional[list[str]] = None
-    ):
+    def add_target(self, name: str, recipe: Optional[str] = None, deps: Optional[list[str]] = None):
         """Add targets to the Makefile"""
-        if body and deps:
+        if not recipe and not deps:
+            raise ValueError("Either recipe or dependencies must be provided")            
+        if recipe and deps:
             _deps = " ".join(deps)
-            self.targets.append(f"{name}: {_deps}\n\t{body}")
-        elif body and not deps:
-            self.targets.append(f"{name}:\n\t{body}")
-        elif not body and deps:
+            _target = f"{name}: {_deps}\n\t{recipe}"
+        elif recipe and not deps:
+            _target = f"{name}:\n\t{recipe}"
+        elif not recipe and deps:
             _deps = " ".join(deps)
-            self.targets.append(f"{name}: {_deps}")
-        else:  # no body or dependencies
-            raise ValueError("Either body or dependencies must be provided")
+            _target = f"{name}: {_deps}"
+        if _target in self.targets:
+            raise ValueError(f"target: '{_target}' already exists in `targets` list")
+        self.targets.append(_target)
 
     def add_phony(self, *entries):
         """Add phony targets to the Makefile"""
