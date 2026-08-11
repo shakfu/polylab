@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tauri feature demo</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+
+  <body>
+    <div class="app">
+      <!-- data-tauri-drag-region makes a custom region draggable like a title bar -->
+      <header class="topbar" data-tauri-drag-region>
+        <div class="brand" data-tauri-drag-region>
+          <img src="/src/assets/tauri.svg" class="brand-logo" alt="" />
+          <div data-tauri-drag-region>
+            <h1 data-tauri-drag-region>Tauri feature demo</h1>
+            <p class="brand-sub" id="app-summary" data-tauri-drag-region>loading app info...</p>
+          </div>
+        </div>
+        <div class="topbar-stats">
+          <span class="stat"><span class="stat-label">uptime</span><span id="stat-uptime">--</span></span>
+          <span class="stat"><span class="stat-label">open notes</span><span id="stat-open">--</span></span>
+        </div>
+      </header>
+
+      <nav class="nav" id="nav">
+        <button class="nav-item is-active" data-panel="commands">Commands &amp; state</button>
+        <button class="nav-item" data-panel="events">Events &amp; streaming</button>
+        <button class="nav-item" data-panel="files">Files &amp; dialogs</button>
+        <button class="nav-item" data-panel="window">Windows</button>
+        <button class="nav-item" data-panel="system">OS integration</button>
+        <button class="nav-item" data-panel="settings">Settings &amp; shortcuts</button>
+      </nav>
+
+      <main class="content">
+        <!-- ================= Commands & state ================= -->
+        <section class="panel is-active" id="panel-commands">
+          <div class="card">
+            <h2>Calling Rust</h2>
+            <p class="hint">
+              <code>invoke("greet", { name })</code> runs a <code>#[tauri::command]</code> in
+              <code>src-tauri/src/commands.rs</code> and resolves with whatever the function returns.
+            </p>
+            <form class="row" id="greet-form">
+              <input id="greet-input" placeholder="Enter a name..." autocomplete="off" />
+              <button type="submit">Greet</button>
+            </form>
+            <pre class="output" id="greet-out">no call yet</pre>
+          </div>
+
+          <div class="card">
+            <h2>Errors cross the boundary too</h2>
+            <p class="hint">
+              A command returning <code>Result::Err</code> rejects the JS promise, so normal
+              <code>try/catch</code> works.
+            </p>
+            <form class="row" id="divide-form">
+              <input id="divide-a" type="number" value="10" step="any" />
+              <span class="row-glyph">/</span>
+              <input id="divide-b" type="number" value="0" step="any" />
+              <button type="submit">Divide</button>
+            </form>
+            <pre class="output" id="divide-out">try a denominator of 0</pre>
+          </div>
+
+          <div class="card card-wide">
+            <h2>Managed state</h2>
+            <p class="hint">
+              Notes live in a <code>Mutex</code> inside Rust, registered with
+              <code>Builder::manage</code>. The frontend holds no copy of the list -- it re-reads it
+              after every mutation.
+            </p>
+            <form class="row" id="note-form">
+              <input id="note-title" placeholder="Title" autocomplete="off" />
+              <input id="note-body" placeholder="Body (optional)" autocomplete="off" />
+              <button type="submit">Add note</button>
+            </form>
+            <p class="error" id="note-error" hidden></p>
+            <ul class="notes" id="note-list"></ul>
+            <p class="hint" id="note-stats">no notes yet</p>
+          </div>
+        </section>
+
+        <!-- ================= Events & streaming ================= -->
+        <section class="panel" id="panel-events">
+          <div class="card">
+            <h2>Rust to frontend events</h2>
+            <p class="hint">
+              A background task in <code>setup()</code> emits <code>app://tick</code> every second;
+              the webview subscribes with <code>listen()</code>. Unlike commands, events are
+              one-way and fan out to every window.
+            </p>
+            <pre class="output" id="tick-out">waiting for the first tick...</pre>
+          </div>
+
+          <div class="card">
+            <h2>Frontend to Rust events</h2>
+            <p class="hint">
+              <code>emit("ui://log", payload)</code> is fire-and-forget in the other direction.
+              Rust prints it to the terminal running <code>tauri dev</code>.
+            </p>
+            <form class="row" id="uilog-form">
+              <input id="uilog-input" placeholder="Message for the Rust console" autocomplete="off" />
+              <button type="submit">Emit</button>
+            </form>
+          </div>
+
+          <div class="card card-wide">
+            <h2>Streaming progress over a channel</h2>
+            <p class="hint">
+              One <code>invoke</code>, many messages: <code>run_job</code> takes an
+              <code>ipc::Channel</code> and sends a tagged enum per step. Cancellation is a second
+              command flipping an <code>AtomicBool</code> the job polls.
+            </p>
+            <form class="row" id="job-form">
+              <label class="field">steps <input id="job-steps" type="number" value="25" min="1" max="500" /></label>
+              <label class="field">ms/step <input id="job-ms" type="number" value="80" min="10" max="2000" /></label>
+              <button type="submit" id="job-start">Run job</button>
+              <button type="button" id="job-cancel" class="ghost" disabled>Cancel</button>
+            </form>
+            <div class="progress"><div class="progress-fill" id="job-bar"></div></div>
+            <pre class="output" id="job-out">idle</pre>
+          </div>
+        </section>
+
+        <!-- ================= Files & dialogs ================= -->
+        <section class="panel" id="panel-files">
+          <div class="card card-wide">
+            <h2>Native dialogs</h2>
+            <p class="hint">
+              The dialog plugin returns a path; the file itself is read by a Rust command. Rust is
+              not bound by the frontend's filesystem scope, which is what makes
+              "open anything the user picked" workable.
+            </p>
+            <div class="row">
+              <button id="pick-file">Open file...</button>
+              <button id="save-file" class="ghost">Save text as...</button>
+              <button id="ask-dialog" class="ghost">Ask / confirm</button>
+              <button id="reveal-file" class="ghost" disabled>Reveal in file manager</button>
+            </div>
+            <pre class="output" id="file-out">nothing opened yet</pre>
+          </div>
+
+          <div class="card card-wide">
+            <h2>Scoped filesystem access</h2>
+            <p class="hint">
+              This scratchpad uses the <code>fs</code> plugin directly from JS with
+              <code>BaseDirectory.AppData</code>. It only works because
+              <code>capabilities/default.json</code> grants read and write under
+              <code>$APPDATA</code> -- try changing the path and the call is denied.
+            </p>
+            <textarea id="scratch" rows="5" placeholder="Type something, save it, then restart the app."></textarea>
+            <div class="row">
+              <button id="scratch-save">Save to app data</button>
+              <button id="scratch-load" class="ghost">Reload</button>
+              <button id="scratch-clear" class="ghost">Delete file</button>
+            </div>
+            <p class="hint" id="scratch-status">not loaded</p>
+          </div>
+        </section>
+
+        <!-- ================= Windows ================= -->
+        <section class="panel" id="panel-window">
+          <div class="card card-wide">
+            <h2>Controlling this window</h2>
+            <p class="hint">
+              Each call maps to one permission in the capability file. Without
+              <code>core:window:allow-set-fullscreen</code>, for example, the fullscreen button
+              throws instead of doing nothing.
+            </p>
+            <div class="row wrap">
+              <button id="win-minimize" class="ghost">Minimise</button>
+              <button id="win-maximize" class="ghost">Toggle maximise</button>
+              <button id="win-fullscreen" class="ghost">Toggle fullscreen</button>
+              <button id="win-ontop" class="ghost">Always on top: off</button>
+              <button id="win-center" class="ghost">Centre</button>
+            </div>
+            <form class="row" id="title-form">
+              <input id="title-input" placeholder="New window title" autocomplete="off" />
+              <button type="submit">Set title</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h2>Extra webview windows</h2>
+            <p class="hint">
+              A Tauri app is multi-window. Each window is a separate webview with its own label,
+              and events reach all of them.
+            </p>
+            <div class="row">
+              <button id="win-new">Open inspector window</button>
+              <button id="win-close-extra" class="ghost" disabled>Close it</button>
+            </div>
+            <pre class="output" id="win-out">no extra window</pre>
+          </div>
+
+          <div class="card">
+            <h2>Close behaviour</h2>
+            <p class="hint">
+              With "close to tray" enabled (see Settings), Rust intercepts
+              <code>CloseRequested</code> and hides the window instead of quitting. The tray icon
+              brings it back.
+            </p>
+            <pre class="output" id="close-out">close to tray: off</pre>
+          </div>
+        </section>
+
+        <!-- ================= OS integration ================= -->
+        <section class="panel" id="panel-system">
+          <div class="card">
+            <h2>Host and app information</h2>
+            <p class="hint">
+              Values from the <code>os</code> plugin plus an <code>app_info</code> command reading
+              the parsed <code>tauri.conf.json</code>.
+            </p>
+            <dl class="kv" id="sysinfo"></dl>
+          </div>
+
+          <div class="card">
+            <h2>Notifications</h2>
+            <p class="hint">
+              Desktop notifications need a runtime permission grant, exactly like on the web.
+            </p>
+            <div class="row">
+              <button id="notify">Send notification</button>
+              <button id="notify-perm" class="ghost">Check permission</button>
+            </div>
+            <p class="hint" id="notify-status">permission unknown</p>
+          </div>
+
+          <div class="card">
+            <h2>Clipboard</h2>
+            <div class="row">
+              <input id="clip-input" placeholder="Text to copy" autocomplete="off" />
+              <button id="clip-write">Copy</button>
+              <button id="clip-read" class="ghost">Read back</button>
+            </div>
+            <pre class="output" id="clip-out">clipboard not read yet</pre>
+          </div>
+
+          <div class="card">
+            <h2>Opening things in the host OS</h2>
+            <p class="hint">
+              The opener plugin hands a URL or path to the system handler, so links leave the
+              webview instead of navigating it.
+            </p>
+            <div class="row wrap">
+              <button id="open-docs" class="ghost">tauri.app/start</button>
+              <button id="open-api" class="ghost">JS API reference</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= Settings ================= -->
+        <section class="panel" id="panel-settings">
+          <div class="card card-wide">
+            <h2>Persisted settings</h2>
+            <p class="hint">
+              The store plugin keeps a JSON file in the app data directory and writes it back
+              automatically. Change anything here and restart the app -- it comes back.
+            </p>
+            <div class="settings-grid">
+              <label class="field">
+                Display name
+                <input id="set-name" placeholder="Anonymous" autocomplete="off" />
+              </label>
+              <label class="field">
+                Theme
+                <select id="set-theme">
+                  <option value="system">Follow system</option>
+                  <option value="dark">Dark</option>
+                  <option value="light">Light</option>
+                </select>
+              </label>
+              <label class="check">
+                <input type="checkbox" id="set-tray" />
+                Close to tray instead of quitting
+              </label>
+              <label class="check">
+                <input type="checkbox" id="set-verbose" />
+                Log every tick to the console below
+              </label>
+            </div>
+            <p class="hint" id="settings-status">loading...</p>
+          </div>
+
+          <div class="card">
+            <h2>Global shortcut</h2>
+            <p class="hint">
+              Registered by Rust and active even when the app is in the background: it raises and
+              focuses the window. Registration fails if another app already owns the combination.
+            </p>
+            <form class="row" id="shortcut-form">
+              <input id="shortcut-input" placeholder="CmdOrCtrl+Shift+D" autocomplete="off" />
+              <button type="submit">Register</button>
+            </form>
+            <p class="hint" id="shortcut-status">loading...</p>
+          </div>
+
+          <div class="card">
+            <h2>Menu and tray</h2>
+            <p class="hint">
+              The native menu bar and the tray icon are built in Rust. Their custom items emit
+              <code>menu://action</code>, so the UI decides what each one does. Try
+              <b>Actions &gt; New note</b> or the tray icon.
+            </p>
+            <pre class="output" id="menu-out">no menu action yet</pre>
+          </div>
+        </section>
+      </main>
+
+      <footer class="console" id="console-wrap">
+        <div class="console-head">
+          <span>Event console</span>
+          <div class="row">
+            <button id="console-clear" class="ghost tiny">Clear</button>
+            <button id="console-toggle" class="ghost tiny">Hide</button>
+          </div>
+        </div>
+        <ol class="console-lines" id="console"></ol>
+      </footer>
+    </div>
+  </body>
+</html>
