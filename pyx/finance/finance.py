@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''
 A set of functions for quick financial analysis of an investment
 opportunity and a series of projected cashflows.
@@ -16,14 +16,14 @@ to the respective wikipedia page:
         http://en.wikipedia.org/wiki/Internal_rate_of_return
 '''
 
-import sys
+import sys, locale
 
 def payback_of_investment(investment, cashflows):
     """The payback period refers to the length of time required 
        for an investment to have its initial cost recovered.
        
        >>> payback_of_investment(200.0, [60.0, 60.0, 70.0, 90.0])
-       3.1111111111111112
+       3.111111111111111
     """
     total, years, cumulative = 0.0, 0, []
     if not cashflows or (sum(cashflows) < investment):
@@ -45,7 +45,7 @@ def payback(cashflows):
        (This version accepts a list of cashflows)
        
        >>> payback([-200.0, 60.0, 60.0, 70.0, 90.0])
-       3.1111111111111112
+       3.111111111111111
     """
     investment, cashflows = cashflows[0], cashflows[1:]
     if investment < 0 : investment = -investment
@@ -55,7 +55,7 @@ def npv(rate, cashflows):
     """The total present value of a time series of cash flows.
     
         >>> npv(0.1, [-100.0, 60.0, 60.0, 60.0])
-        49.211119459053322
+        49.21111945905332
     """
     total = 0.0
     for i, cashflow in enumerate(cashflows):
@@ -78,6 +78,10 @@ def irr(cashflows, iterations=100):
     return rate
 
 
+# enable placing commas in thousands
+locale.setlocale(locale.LC_ALL, "")
+# convenience function to place commas in thousands
+format = lambda x: locale.format_string('%d', x, grouping=True)
 
 def investment_analysis(discount_rate, cashflows):
     """Provides summary investment analysis on a list of cashflows
@@ -87,25 +91,21 @@ def investment_analysis(discount_rate, cashflows):
        is the initial investment with a negative float value.
     """
     _npv = npv(discount_rate, cashflows)
-    ts = [('year', 'cashflow')] + [(str(x), str(y)) for (x,y) in zip(
+    ts = [('year', 'cashflow')] + [(str(x), format(y)) for (x,y) in zip(
            range(len(cashflows)), cashflows)]
-    print "-" * 70
-    for y,c in ts:
-        print y + (len(c) - len(y) + 1)*' ',
-    print
-    for y,c in ts:
-        print c + ' ',
-    print
-    print
-    print "Discount Rate: %.1f%%" % (discount_rate * 100)
-    print
-    print "Payback: %.2f years" % payback(cashflows)
-    print "    IRR: %.2f%%" % (irr(cashflows) * 100)
-    print "    NPV: %s" % _npv
-    print 
-    print "==> %s investment of %s" % (
-        ("Approve" if _npv > 0 else "Do Not Approve"), str(-cashflows[0]))
-    print "-" * 70
+    print("-" * 70)
+    print(' '.join(y + (len(c) - len(y) + 1)*' ' for y,c in ts))
+    print(' '.join(c + ' ' for y,c in ts))
+    print()
+    print("Discount Rate: %.1f%%" % (discount_rate * 100))
+    print()
+    print("Payback: %.2f years" % payback(cashflows))
+    print("    IRR: %.2f%%" % (irr(cashflows) * 100))
+    print("    NPV: %s" % format(_npv))
+    print()
+    print("==> %s investment of %s" % (
+        ("Approve" if _npv > 0 else "Do Not Approve"), format(-cashflows[0])))
+    print("-" * 70)
 
 def main(inputs):
     """commandline entry point
@@ -129,8 +129,13 @@ def main(inputs):
         rate, cashflows = inputs[0], inputs[1:]
         investment_analysis(float(rate), [float(c) for c in cashflows])
     except IndexError:
-        print usage
+        print(usage)
         sys.exit()
 
-
-main(sys.argv[1:])
+if __name__ == '__main__':
+    debug = False
+    if debug:
+        import doctest
+        doctest.testmod()
+    else:
+        main(sys.argv[1:])
